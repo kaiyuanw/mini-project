@@ -1,0 +1,59 @@
+application: miniproject1
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /assets
+  static_dir: assets
+
+- url: /manage
+  script: handlers.manage_handler.app
+
+- url: /create_stream
+  script: handlers.create_stream_handler.app
+
+- url: /create
+  script: handlers.create_stream_handler.app
+
+- url: /stream.*
+  script: handlers.view_single_stream_handler.app
+
+- url: /upload
+  script: handlers.view_single_stream_handler.app
+
+- url: /img.*
+  script: handlers.view_single_stream_handler.app
+
+- url: /show_more.*
+  script: handlers.view_single_stream_handler.app
+
+- url: /subscribe_stream
+  script: handlers.view_single_stream_handler.app
+
+- url: /delete_photos
+  script: handlers.view_single_stream_handler.app
+
+- url: /view_all_stream
+  script: handlers.view_all_streams_handler.app
+
+- url: /search_stream
+  script: handlers.search_handler.app
+
+- url: /show_result
+  script: handlers.search_handler.app
+
+- url: /error
+  script: handlers.error.app
+
+- url: /.*
+  script: login.app
+
+libraries:
+- name: webapp2
+  version: latest
+- name: jinja2
+  version: latest
+- name: PIL
+  version: latest

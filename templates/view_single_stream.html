@@ -1,0 +1,19 @@
+{% extends "templates/base.html" %}
+{% block div_body %}
+<h2>{{ stream_name }}</h2>
+<table border="1" style="width:100%">
+    <tr>
+        {% for photo in photos %}
+        <td><img src="/img?img_id={{ photo.key.urlsafe() }}"/></td>
+        {% endfor %}
+    </tr>
+</table>
+<form action="{{ more_pic_url }}">
+    <input type="submit" value="More Pictures"/>
+</form>
+<form action="/upload" method="post" enctype="multipart/form-data">
+    Upload File:
+    <input type="file" name="photo"/><br>
+    <input type="submit" name="submit" value="Submit">
+</form>
+{% endblock %}

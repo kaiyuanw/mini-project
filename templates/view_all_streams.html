@@ -1,0 +1,29 @@
+{% extends "templates/base.html" %}
+{% block view_all_stream %}
+<b>View</b>
+{% endblock %}
+{% block div_body %}
+<h2>View All Streams of {{ owner_nickname }}</h2>
+{% set counter = 0 %}
+<table border="1" style="width:100%">
+    {% for stream in streams %}
+        {% if counter % 3 == 0 %}
+            <tr>
+        {% endif %}
+                <td>
+                    <a href="{{ stream.stream_url }}">
+                        <div style="position: relative">
+                            <img src="{{ stream.cover_url }}"/>
+                            <div style="position: absolute; left: 0px; top: 0px">
+                                {{ stream.name }}
+                            </div>
+                        </div>
+                    </a>
+                </td>
+        {% if counter % 3 == 2 %}
+            </tr>
+        {% endif %}
+        {% set counter = counter + 1 %}
+    {% endfor %}
+</table>
+{% endblock %}

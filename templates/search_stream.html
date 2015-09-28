@@ -1,0 +1,32 @@
+{% extends "templates/base.html" %}
+{% block search_stream %}
+<b>Search</b>
+{% endblock %}
+{% block div_body %}
+<form action="/show_result" method="get">
+    <input type="search" name="search_keyword" placeholder="Lucknow"/><br>
+    <input type="submit" value="Search"/>
+</form>
+{% if search_enabled %}
+    <h4>Find {{ result_size }} results for keyword <b>{{ keyword }}</b>,
+        <br>
+        click on image to view individual stream
+    </h4>
+    <table style="width: 20%">
+        {% for stream in result_streams %}
+            <tr>
+                <td>
+                    <div style="position: relative">
+                        <a href="{{ stream.stream_url }}">
+                            <img src="{{ stream.cover_url }}"/>
+                            <div style="position: absolute; left: 150px; top: 20px">
+                                {{ stream.name }}
+                            </div>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+{% endblock %}

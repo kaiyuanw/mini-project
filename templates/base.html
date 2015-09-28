@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+<head lang="en">
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        #header td {
+            width: 100px;
+
+            font-weight: bold;
+            text-align: center;
+            border-left: 3px solid black;
+            border-right: 3px solid black;
+        }
+
+        #header td:first-child {
+            border-left: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        #header td:last-child {
+            border-right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        b {
+            color: aqua;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>AAA</title>
+</head>
+<body>
+<h1> Connex.us </h1>
+
+<div id="header">
+    <table>
+        <tr>
+            <td>
+                {% block manage %}<a href="manage">Manage</a>{% endblock %}
+            </td>
+            <td>
+                {% block create_stream %}<a href="create_stream">Create</a>{% endblock %}
+            </td>
+            <td>
+                {% block view_all_stream %}<a href="view_all_stream">View</a>{% endblock %}
+            </td>
+            <td>
+                {% block search_stream %}<a href="search_stream">Search</a>{% endblock %}
+            </td>
+            <td>
+                {% block trending_stream %}<a href="trending_stream">Trending</a>{% endblock %}
+            </td>
+            <td>
+                {% block social %}<a href="social">Social</a>{% endblock %}
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="body">
+    {% block div_body %}
+    <p>Nothing</p>
+    {% endblock %}
+</div>
+</body>
+</html>
+{% endautoescape %}

@@ -1,0 +1,28 @@
+{% extends "templates/base.html" %}
+{% block div_body %}
+<h2>{{ stream.name }}</h2>
+{% set isOwner = user and stream.owner == user %}
+{% set counter = 0 %}
+{% if isOwner %}
+    <form action="delete_photos" method="post">
+{% endif %}
+<table border="1" style="width:100%">
+    {% for photo in photos %}
+        {% if counter % 3 == 0 %}
+            <tr>
+        {% endif %}
+                <td><img src="/img?img_id={{ photo.key.urlsafe() }}"/>{% if isOwner %}<input type="checkbox" name="photos2delete" value="{{ photo.id }}"/>{% endif %}</td>
+        {% if counter % 3 == 2 %}
+            </tr>
+        {% endif %}
+        {% set counter = counter + 1 %}
+    {% endfor %}
+</table>
+{% if isOwner %}
+    <input type="submit" value="Delete Selected Photos"/>
+    </form>
+{% elif user %}
+    <form action="subscribe_stream" method="post"><input type="submit" value="Subscribe"/></form>
+{% endif %}
+<a href="{{ go_back_url }}">Go Back</a>
+{% endblock %}
