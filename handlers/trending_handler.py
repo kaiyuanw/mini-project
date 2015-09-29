@@ -56,7 +56,13 @@ class SendEmail(webapp2.RequestHandler):
                 email_sender = 'wangkaiyuanzz@gmail.com'
             mail.send_mail(
                 sender = email_sender,
-                to = 'kaiyuanw@utexas.edu',
+                to = 'wangkaiyuanzz@gmail.com',
+                subject = email_subject,
+                body = email_message
+            )
+            mail.send_mail(
+                sender = email_sender,
+                to = 'xingyuan.wang.zju@gmail.com',
                 subject = email_subject,
                 body = email_message
             )
