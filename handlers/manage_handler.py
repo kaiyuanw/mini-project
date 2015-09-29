@@ -1,11 +1,15 @@
 __author__ = 'Kaiyuan_Wang'
 
 from google.appengine.api import users
+from google.appengine.ext import ndb
 import webapp2
 
-import jinja_env
-from model import Stream
-from key_pool import user_key
+from domain import jinja_env
+from domain.model import Stream
+from domain.model import Photo
+from domain.key_pool import user_key
+from domain.key_pool import stream_key
+
 
 JINJA_ENVIRONMENT = jinja_env.get_jinja_env()
 
@@ -41,4 +45,32 @@ class ManagePage(webapp2.RequestHandler):
             self.response.out.write(template.render(template_value))
             self.redirect('/')
 
-app = webapp2.WSGIApplication([('/manage', ManagePage)], debug=True)
+class DeleteStreams(webapp2.RequestHandler):
+    def post(self):
+        original_url = self.request.headers['Referer']
+        streams2delete = self.request.get_all('streams2delete')
+        if len(streams2delete) > 0:
+            streams = Stream.query(Stream.name.IN(streams2delete), Stream.owner == users.get_current_user()).fetch()
+            for stream in streams:
+                photos = Photo.query(ancestor = stream_key(stream.name))
+                ndb.delete_multi([p.key for p in photos])
+            ndb.delete_multi([s.key for s in streams])
+        self.redirect(original_url)
+
+class UnsubscribeStreams(webapp2.RequestHandler):
+    def post(self):
+        original_url = self.request.headers['Referer']
+        streams2unsubscribe = self.request.get_all('streams2unsubscribe')
+        streams = Stream.query(Stream.name.IN(streams2unsubscribe)).fetch()
+        for stream in streams:
+            if users.get_current_user() and users.get_current_user().nickname() in stream.subscribers:
+                stream.subscribers.remove(users.get_current_user().nickname())
+                stream.put()
+        self.redirect(original_url)
+
+app = webapp2.WSGIApplication(
+    [
+        ('/manage', ManagePage),
+        ('/delete_stream', DeleteStreams),
+        ('/unsubscribe_stream', UnsubscribeStreams)
+    ], debug=True)

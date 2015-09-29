@@ -1,7 +1,9 @@
 __author__ = 'Kaiyuan_Wang'
 
 import webapp2
-import jinja_env
+
+from domain import jinja_env
+
 
 JINJA_ENVIRONMENT = jinja_env.get_jinja_env()
 

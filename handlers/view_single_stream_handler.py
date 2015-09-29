@@ -1,19 +1,19 @@
 __author__ = 'Kaiyuan_Wang'
 
-import webapp2
 import re
 import urllib
-import time
 
+import webapp2
 from google.appengine.api import users
 from google.appengine.api import images
 from google.appengine.ext import ndb
 
-from model import Stream
-from model import Photo
-from model import SingleVisit
-import jinja_env
-from key_pool import stream_key
+from domain.model import Stream
+from domain.model import Photo
+from domain.model import SingleVisit
+from domain import jinja_env, time
+from domain.key_pool import stream_key
+
 
 JINJA_ENVIRONMENT = jinja_env.get_jinja_env()
 

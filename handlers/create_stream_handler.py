@@ -1,15 +1,15 @@
 __author__ = 'Kaiyuan_Wang'
 
 import urllib
-import time
 
 from google.appengine.api import users
 from google.appengine.api import mail
-
-import jinja_env
 import webapp2
-from model import Stream
-from key_pool import user_key
+
+from domain import jinja_env, time
+from domain.model import Stream
+from domain.key_pool import user_key
+
 
 JINJA_ENVIRONMENT = jinja_env.get_jinja_env()
 

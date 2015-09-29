@@ -1,11 +1,13 @@
 __author__ = 'Kaiyuan_Wang'
 
-import webapp2
 import urllib
 import re
 
-import jinja_env
-from model import Stream
+import webapp2
+
+from domain import jinja_env
+from domain.model import Stream
+
 
 JINJA_ENVIRONMENT = jinja_env.get_jinja_env()
 

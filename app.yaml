@@ -11,6 +11,12 @@ handlers:
 - url: /manage
   script: handlers.manage_handler.app
 
+- url: /delete_stream
+  script: handlers.manage_handler.app
+
+- url: /unsubscribe_stream
+  script: handlers.manage_handler.app
+
 - url: /create_stream
   script: handlers.create_stream_handler.app
 
