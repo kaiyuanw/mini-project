@@ -7,6 +7,7 @@ from google.appengine.api import mail
 from domain import jinja_env, time
 from domain.model import Stream
 from domain.model import EmailTimer
+from domain.model import SingleVisit
 from domain.key_pool import email_timer_key
 
 
@@ -44,11 +45,11 @@ class SendEmail(webapp2.RequestHandler):
             email_message = 'The most 3 popular streams are '
             prefix = ''
             for stream in most_three_popular_streams:
-                email_message += prefix + stream.name + ' owned by ' + stream.owner_nickname
+                email_message += (prefix + stream.name + ' owned by ' + stream.owner_nickname)
                 prefix = ', '
             email_subject = 'Trending Stream Report'
             email_sender = users.get_current_user().email()
-            mail.send_mail(sender = 'wangkaiyuanzz@gmail.com', to = 'kaiyuanw@utexas.edu', subject = email_subject, body = email_message)
+            mail.send_mail(sender = email_sender, to = 'kaiyuanw@utexas.edu', subject = email_subject, body = email_message)
         timer.put()
 
 class ClearVisitorHistoryPeriodically(webapp2.RequestHandler):
@@ -58,8 +59,9 @@ class ClearVisitorHistoryPeriodically(webapp2.RequestHandler):
             visitor_history = stream.total_visits
             visitors_left = []
             for visitor in visitor_history:
-                if visitor.visit_time < time.get_us_central_time() - time.time_delta(hours = 1):
-                    visitor.key.delete()
+                if visitor.visit_time < (time.get_us_central_time() - time.time_delta(hours = 1)):
+                    visit = SingleVisit.query(SingleVisit.visit_time == visitor.visit_time).fetch()[0]
+                    visit.key.delete()
                 else:
                     visitors_left.append(visitor)
             stream.total_visits = visitors_left

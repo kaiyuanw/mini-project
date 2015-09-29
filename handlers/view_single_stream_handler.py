@@ -51,7 +51,7 @@ class Upload(webapp2.RequestHandler):
         if len(img) > 0:
             stream_name = re.findall('=(.*)', original_url)[0]
             stream = Stream.query(Stream.name == stream_name, Stream.owner == users.get_current_user()).fetch()[0]
-            photo = Photo(parent = stream_key(stream_name))
+            photo = Photo(upload_date = time.get_us_central_time(), parent = stream_key(stream_name))
             stream.update_time = photo.upload_date
             stream.pic_num = stream.pic_num + 1
             stream.unique_id_counter += 1

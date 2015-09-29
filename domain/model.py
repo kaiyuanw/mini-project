@@ -24,7 +24,7 @@ class Stream(ndb.Model):
 class Photo(ndb.Model):
     id = ndb.StringProperty()
     image = ndb.BlobProperty()
-    upload_date = ndb.DateTimeProperty(auto_now_add=True)
+    upload_date = ndb.DateTimeProperty()
 
 class EmailTimer(ndb.Model):
     name = ndb.StringProperty()
