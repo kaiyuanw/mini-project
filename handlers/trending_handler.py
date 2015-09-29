@@ -19,8 +19,9 @@ class TrendingPage(webapp2.RequestHandler):
         most_three_popular_streams = sorted(streams, key = lambda stream: len(stream.total_visits), reverse = True)[:3]
         timer = get_timer('timer')
         template_value = {
-                'most_three_popular_streams': most_three_popular_streams,
-                'timer': timer
+            'user': users.get_current_user(),
+            'most_three_popular_streams': most_three_popular_streams,
+            'timer': timer
         }
         template = JINJA_ENVIRONMENT.get_template('templates/trending_stream.html')
         self.response.out.write(template.render(template_value))
@@ -40,7 +41,7 @@ class SendEmail(webapp2.RequestHandler):
         self.response.out.write('<h>' + str(timer.counter) + '</h>')
         timer.counter = timer.counter + 1
         self.response.out.write('<h>' + str(timer.counter) + '</h>')
-        if timer.counter >= timer.threshold:
+        if timer.counter >= timer.threshold and timer.threshold != 0:
             timer.counter = 0
             streams = Stream.query().fetch()
             most_three_popular_streams = sorted(streams, key = lambda stream: len(stream.total_visits), reverse = True)[:3]

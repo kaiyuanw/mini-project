@@ -72,6 +72,6 @@ class UnsubscribeStreams(webapp2.RequestHandler):
 app = webapp2.WSGIApplication(
     [
         ('/manage', ManagePage),
-        ('/delete_stream', DeleteStreams),
-        ('/unsubscribe_stream', UnsubscribeStreams)
+        ('/delete_streams', DeleteStreams),
+        ('/unsubscribe_streams', UnsubscribeStreams)
     ], debug=True)

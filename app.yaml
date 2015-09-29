@@ -11,11 +11,11 @@ handlers:
 - url: /manage
   script: handlers.manage_handler.app
 
-- url: /delete_stream
+- url: /delete_streams
   script: handlers.manage_handler.app
   login: required
 
-- url: /unsubscribe_stream
+- url: /unsubscribe_streams
   script: handlers.manage_handler.app
   login: required
 
@@ -47,6 +47,10 @@ handlers:
   script: handlers.view_single_stream_handler.app
   login: required
 
+- url: /unsubscribe_stream
+  script: handlers.view_single_stream_handler.app
+  login: required
+
 - url: /delete_photos
   script: handlers.view_single_stream_handler.app
   login: required
@@ -55,7 +59,7 @@ handlers:
   script: handlers.view_all_streams_handler.app
   login: required
 
-- url: /search_stream
+- url: /search_streams
   script: handlers.search_handler.app
   login: required
 

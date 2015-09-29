@@ -2,8 +2,9 @@ __author__ = 'Kaiyuan_Wang'
 
 import urllib
 import re
-
 import webapp2
+
+from google.appengine.api import users
 
 from domain import jinja_env
 from domain.model import Stream
@@ -16,6 +17,7 @@ class SearchPage(webapp2.RequestHandler):
         search_enabled = False
         template_value = {
             'search_enabled': search_enabled,
+            'user': users.get_current_user(),
             'result_size': 0,
             'keyword': '',
             'result_streams': []
@@ -30,17 +32,21 @@ class ShowResult(webapp2.RequestHandler):
         name_list = []
         for stream in Stream.query().fetch():
             name_list.append(stream.name)
-
         relevant_scores = []
         for name in name_list:
             relevant_scores.append(relevant_score(name, keyword))
         sorted_mapping = sorted(zip(relevant_scores, name_list), reverse=True)
-        five_most_relevant_names = [mapping[1] for mapping in sorted_mapping[:5]]
-        result_streams = Stream.query(Stream.name.IN(five_most_relevant_names))
+        five_most_relevant_names = [mapping[1] for mapping in sorted_mapping[:5] if mapping[0] != 0]
+        if five_most_relevant_names == []:
+            five_most_relevant_names = ['']
+        result_streams = Stream.query(Stream.name.IN(five_most_relevant_names)).fetch()
+        print '--------'
+        print (len(result_streams))
+        print(result_streams)
         search_enabled = True
         template_value = {
             'search_enabled': search_enabled,
-            'result_size': len(five_most_relevant_names),
+            'user': users.get_current_user(),
             'keyword': keyword,
             'result_streams': result_streams
         }
@@ -67,6 +73,6 @@ def relevant_score(stringa, stringb):
 
 app = webapp2.WSGIApplication(
     [
-        ('/search_stream', SearchPage),
+        ('/search_streams', SearchPage),
         ('/show_result', ShowResult)
     ], debug=True)

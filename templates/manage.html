@@ -4,7 +4,7 @@
 {% endblock %}
 {% block div_body %}
 <h2>Streams I own</h2>
-<form action="/delete_stream" method="post">
+<form action="/delete_streams" method="post">
     <table border="1" style="width:100%">
         <tr>
             <td>Name</td>
@@ -24,7 +24,7 @@
     <input type="submit" value="Delete Checked"/>
 </form>
 <h2>Streams I subscribe to</h2>
-<form action="/unsubscribe_stream" method="post">
+<form action="/unsubscribe_streams" method="post">
     <table border="1" style="width:100%">
         <tr>
             <td>Name</td>

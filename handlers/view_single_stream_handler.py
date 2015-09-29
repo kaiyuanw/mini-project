@@ -64,6 +64,7 @@ class Upload(webapp2.RequestHandler):
 
 class DisplayPhotos(webapp2.RequestHandler):
     def get(self):
+        original_url = self.request.headers['Referer']
         unquoted_url = urllib.unquote(self.request.url)
         stream_name = re.findall('=(.*)==', unquoted_url)[0]
         user_nickname = re.findall('==(.*)', unquoted_url)[0]
@@ -75,7 +76,8 @@ class DisplayPhotos(webapp2.RequestHandler):
         stream.total_views = len(stream.total_visits)
         stream.put()
         photos = Photo.query(ancestor = stream_key(stream_name)).order(-Photo.upload_date).fetch()
-        go_back_url = urllib.urlencode({'stream_name' : stream_name})
+        # go_back_url = urllib.urlencode({'stream_name' : stream_name})
+        go_back_url = original_url
         template_value = {
             'stream': stream,
             'photos': photos,
@@ -88,18 +90,29 @@ class DisplayPhotos(webapp2.RequestHandler):
 class SubscribeStream(webapp2.RequestHandler):
     def post(self):
         original_url = self.request.headers['Referer']
-        unquoted_url = urllib.unquote(original_url)
-
+        unquoted_url = urllib.unquote(original_url).replace('\?','')
         stream_name = re.findall('=(.*)==', unquoted_url)[0]
-        user_nickname = re.findall('==(.*)\?', unquoted_url)[0]
-
+        user_nickname = re.findall('==(.*)', unquoted_url)[0]
         stream = Stream.query(Stream.name == stream_name, Stream.owner_nickname == user_nickname).fetch()[0]
         user = users.get_current_user()
         if user:
             if user.nickname() not in stream.subscribers:
                 stream.subscribers.append(user.nickname())
         stream.put()
+        self.redirect(original_url)
 
+class UnsubscribeStream(webapp2.RequestHandler):
+    def post(self):
+        original_url = self.request.headers['Referer']
+        unquoted_url = urllib.unquote(original_url).replace('\?','')
+        stream_name = re.findall('=(.*)==', unquoted_url)[0]
+        user_nickname = re.findall('==(.*)', unquoted_url)[0]
+        stream = Stream.query(Stream.name == stream_name, Stream.owner_nickname == user_nickname).fetch()[0]
+        user = users.get_current_user()
+        if user:
+            if user.nickname() in stream.subscribers:
+                stream.subscribers.remove(user.nickname())
+        stream.put()
         self.redirect(original_url)
 
 class DeletePhotos(webapp2.RequestHandler):
@@ -127,5 +140,6 @@ app = webapp2.WSGIApplication(
         ('/img.*', Image),
         ('/show_more.*', DisplayPhotos),
         ('/subscribe_stream', SubscribeStream),
+        ('/unsubscribe_stream', UnsubscribeStream),
         ('/delete_photos', DeletePhotos)
     ], debug=True)
