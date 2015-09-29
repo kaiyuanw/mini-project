@@ -27,7 +27,7 @@ class SearchPage(webapp2.RequestHandler):
 
 class ShowResult(webapp2.RequestHandler):
     def get(self):
-        unquoted_url = urllib.unquote(self.request.url)
+        unquoted_url = urllib.unquote(self.request.url).replace('+',' ')
         keyword = re.findall('search_keyword=(.*)', unquoted_url)[0]
         name_list = []
         for stream in Stream.query().fetch():

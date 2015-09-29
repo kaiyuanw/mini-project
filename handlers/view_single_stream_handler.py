@@ -20,7 +20,8 @@ JINJA_ENVIRONMENT = jinja_env.get_jinja_env()
 
 class ViewSingleStreamPage(webapp2.RequestHandler):
     def get(self):
-        stream_name = re.findall('%3D(.*)', self.request.url)[0]
+        unquoted_url = urllib.unquote(self.request.url).replace('+',' ')
+        stream_name = re.findall('=(.*)', unquoted_url)[0]
         stream = Stream.query(Stream.name == stream_name, Stream.owner == users.get_current_user()).fetch()[0]
         photos = Photo.query(ancestor = stream_key(stream_name)).order(-Photo.upload_date).fetch(3)
         more_pic_url = urllib.urlencode({'show_more': stream.name + '==' + users.get_current_user().nickname()})
@@ -47,9 +48,10 @@ class Image(webapp2.RequestHandler):
 class Upload(webapp2.RequestHandler):
     def post(self):
         original_url = self.request.headers['Referer']
+        unquoted_url = urllib.unquote(original_url).replace('+',' ')
         img = self.request.get('photo')
         if len(img) > 0:
-            stream_name = re.findall('=(.*)', original_url)[0]
+            stream_name = re.findall('=(.*)', unquoted_url)[0]
             stream = Stream.query(Stream.name == stream_name, Stream.owner == users.get_current_user()).fetch()[0]
             photo = Photo(upload_date = time.get_us_central_time(), parent = stream_key(stream_name))
             stream.update_time = photo.upload_date
@@ -65,7 +67,7 @@ class Upload(webapp2.RequestHandler):
 class DisplayPhotos(webapp2.RequestHandler):
     def get(self):
         original_url = self.request.headers['Referer']
-        unquoted_url = urllib.unquote(self.request.url)
+        unquoted_url = urllib.unquote(self.request.url).replace('+',' ')
         stream_name = re.findall('=(.*)==', unquoted_url)[0]
         user_nickname = re.findall('==(.*)', unquoted_url)[0]
         stream = Stream.query(Stream.name == stream_name, Stream.owner_nickname == user_nickname).fetch()[0]
@@ -90,7 +92,7 @@ class DisplayPhotos(webapp2.RequestHandler):
 class SubscribeStream(webapp2.RequestHandler):
     def post(self):
         original_url = self.request.headers['Referer']
-        unquoted_url = urllib.unquote(original_url).replace('\?','')
+        unquoted_url = urllib.unquote(original_url).replace('+',' ').replace('\?','')
         stream_name = re.findall('=(.*)==', unquoted_url)[0]
         user_nickname = re.findall('==(.*)', unquoted_url)[0]
         stream = Stream.query(Stream.name == stream_name, Stream.owner_nickname == user_nickname).fetch()[0]
@@ -104,7 +106,7 @@ class SubscribeStream(webapp2.RequestHandler):
 class UnsubscribeStream(webapp2.RequestHandler):
     def post(self):
         original_url = self.request.headers['Referer']
-        unquoted_url = urllib.unquote(original_url).replace('\?','')
+        unquoted_url = urllib.unquote(original_url).replace('+',' ').replace('\?','')
         stream_name = re.findall('=(.*)==', unquoted_url)[0]
         user_nickname = re.findall('==(.*)', unquoted_url)[0]
         stream = Stream.query(Stream.name == stream_name, Stream.owner_nickname == user_nickname).fetch()[0]
@@ -119,7 +121,7 @@ class DeletePhotos(webapp2.RequestHandler):
     def post(self):
         original_url = self.request.headers['Referer']
         # stream_name=re.findall('=(.*)%3D%3D',original_url)[0]
-        unquoted_url = urllib.unquote(original_url)
+        unquoted_url = urllib.unquote(original_url).replace('+',' ')
         stream_name = re.findall('=(.*)==',unquoted_url)[0]
         stream = Stream.query(Stream.name == stream_name, Stream.owner == users.get_current_user()).fetch()[0]
         photos2delete = self.request.get_all("photos2delete")

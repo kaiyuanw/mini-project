@@ -19,10 +19,10 @@
             <tr>
                 <td>
                     <div style="position: relative">
-                        <a href="{% if user == stream.owner %} {{ stream.stream_url }} {% else %} {{ stream.guest_url }} {% endif %}">
+                        <a href="{% if user == stream.owner %} {{stream.stream_url}} {% else %} {{stream.guest_url}} {% endif %}">
                             <img src="{{ stream.cover_url }}"/>
                             <div class="img_txt">
-                                {{ stream.name }}
+                                {{stream.name}}
                             </div>
                         </a>
                     </div>
