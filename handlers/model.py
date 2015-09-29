@@ -25,3 +25,8 @@ class Photo(ndb.Model):
     id = ndb.StringProperty()
     image = ndb.BlobProperty()
     upload_date = ndb.DateTimeProperty(auto_now_add=True)
+
+class EmailTimer(ndb.Model):
+    name = ndb.StringProperty()
+    counter = ndb.IntegerProperty()
+    threshold = ndb.IntegerProperty()

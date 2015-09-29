@@ -44,6 +44,18 @@ handlers:
 - url: /show_result
   script: handlers.search_handler.app
 
+- url: /trending_stream
+  script: handlers.trending_handler.app
+
+- url: /update_email_freq
+  script: handlers.trending_handler.app
+
+- url: /send_email
+  script: handlers.trending_handler.app
+
+- url: /clear
+  script: handlers.trending_handler.app
+
 - url: /error
   script: handlers.error.app
 

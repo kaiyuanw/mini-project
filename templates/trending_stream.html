@@ -1,10 +1,68 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends "templates/base.html" %}
+{% block search_stream %}
+<b>Search</b>
+{% endblock %}
+{% block div_body %}
+<h2>Top 3 Trending Streams</h2>
+<table style="width: 100%">
+    <tr>
+        <td style="width: 70%">
+            <table style="width: 100%">
+            {% for stream in most_three_popular_streams %}
+                <tr>
+                    <td>
+                        <div style="position: relative">
+                            <a href="{{ stream.stream_url }}">
+                                <img src="{{ stream.cover_url }}"/>
+                                <div style="position: absolute; left: 0px; top: 0px">
+                                    {{ stream.name }}
+                                </div>
+                            </a>
+                        </div>
+                        <div>
+                            {{ stream.total_visits|length }} views in the last hour.
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+        </td>
+        <td>
+            <form action="update_email_freq" method="post">
+                <table style="width: 100%">
+                    <tr>
+                        <td>
+                            <input type="radio" name="frequency" value="no" {% if timer.threshold == 0 %}checked="checked"{% endif %}/>No reports
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="radio" name="frequency" value="5m" {% if timer.threshold == 1 %}checked="checked"{% endif %}/>Every 5 minutes<br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="radio" name="frequency" value="1h" {% if timer.threshold == 12 %}checked="checked"{% endif %}/>Every 1 hour<br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="radio" name="frequency" value="1d" {% if timer.threshold == 288 %}checked="checked"{% endif %}/>Every day<br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Email trending report
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="submit" value="Update rate"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+    </tr>
+</table>
+{% endblock %}

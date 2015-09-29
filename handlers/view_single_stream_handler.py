@@ -3,7 +3,7 @@ __author__ = 'Kaiyuan_Wang'
 import webapp2
 import re
 import urllib
-import datetime
+import time
 
 from google.appengine.api import users
 from google.appengine.api import images
@@ -68,7 +68,8 @@ class DisplayPhotos(webapp2.RequestHandler):
         stream_name = re.findall('=(.*)==', unquoted_url)[0]
         user_nickname = re.findall('==(.*)', unquoted_url)[0]
         stream = Stream.query(Stream.name == stream_name, Stream.owner_nickname == user_nickname).fetch()[0]
-        single_visit = SingleVisit(visit_time = datetime.datetime.now())
+        # single_visit = SingleVisit(visit_time = datetime.datetime.now())
+        single_visit = SingleVisit(visit_time = time.get_us_central_time())
         single_visit.put()
         stream.total_visits.append(single_visit)
         stream.total_views = len(stream.total_visits)

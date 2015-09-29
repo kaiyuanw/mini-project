@@ -22,7 +22,6 @@ class ManagePage(webapp2.RequestHandler):
             subscribed_streams = Stream.query(
                 Stream.subscribers == users.get_current_user().nickname()
             ).fetch()
-
             template_value = {
                 'own_streams': own_streams,
                 'subscribed_streams': subscribed_streams,
@@ -40,5 +39,6 @@ class ManagePage(webapp2.RequestHandler):
                 'url_txt': url_txt
             }
             self.response.out.write(template.render(template_value))
+            self.redirect('/')
 
 app = webapp2.WSGIApplication([('/manage', ManagePage)], debug=True)
