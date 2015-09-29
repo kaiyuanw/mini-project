@@ -72,10 +72,11 @@ class DisplayPhotos(webapp2.RequestHandler):
         user_nickname = re.findall('==(.*)', unquoted_url)[0]
         stream = Stream.query(Stream.name == stream_name, Stream.owner_nickname == user_nickname).fetch()[0]
         # single_visit = SingleVisit(visit_time = datetime.datetime.now())
-        single_visit = SingleVisit(visit_time = time.get_us_central_time())
-        single_visit.put()
-        stream.total_visits.append(single_visit)
-        stream.total_views = len(stream.total_visits)
+        if users.get_current_user().nickname() != user_nickname:
+            single_visit = SingleVisit(visit_time = time.get_us_central_time())
+            single_visit.put()
+            stream.total_visits.append(single_visit)
+            stream.total_views = len(stream.total_visits)
         stream.put()
         photos = Photo.query(ancestor = stream_key(stream_name)).order(-Photo.upload_date).fetch()
         # go_back_url = urllib.urlencode({'stream_name' : stream_name})

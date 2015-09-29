@@ -27,6 +27,9 @@ class Photo(ndb.Model):
     upload_date = ndb.DateTimeProperty()
 
 class EmailTimer(ndb.Model):
-    name = ndb.StringProperty()
+    email = ndb.StringProperty()
     counter = ndb.IntegerProperty()
     threshold = ndb.IntegerProperty()
+
+class MailingList(ndb.Model):
+    report_subscribers = ndb.StringProperty(repeated=True)

@@ -1,7 +1,7 @@
 cron:
 - description: email report
   url: /send_email
-  schedule: every 1 minutes
+  schedule: every 5 minutes
 
 - description: clear visitor history older than 1 hour
   url: /clear
