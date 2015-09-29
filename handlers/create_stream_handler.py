@@ -27,7 +27,7 @@ class CreateStream(webapp2.RequestHandler):
         stream_subscribers = self.request.get('subscribers').replace('\n', '').split(',')
         stream_cover_url = self.request.get('cover_url')
         if len(stream_cover_url) == 0:
-            stream_cover_url = 'http://www.mining.com/wp-content/uploads/2012/05/default-300x250.jpg'
+            stream_cover_url = 'assets/images/default_cover_img.jpg'
 
         streams = Stream.query(Stream.name == stream_name, Stream.owner == users.get_current_user()).fetch()
         if len(streams) < 1:

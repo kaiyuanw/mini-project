@@ -3,11 +3,9 @@ from google.appengine.api import users
 import jinja2
 import webapp2
 
-JINJA_ENVIRONMENT = jinja2.Environment(
-    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
-    extensions=['jinja2.ext.autoescape'],
-    autoescape=True)
+from domain import jinja_env
 
+JINJA_ENVIRONMENT = jinja_env.get_jinja_env()
 
 class LoginPage(webapp2.RequestHandler):
     def get(self):

@@ -61,11 +61,12 @@ class UnsubscribeStreams(webapp2.RequestHandler):
     def post(self):
         original_url = self.request.headers['Referer']
         streams2unsubscribe = self.request.get_all('streams2unsubscribe')
-        streams = Stream.query(Stream.name.IN(streams2unsubscribe)).fetch()
-        for stream in streams:
-            if users.get_current_user() and users.get_current_user().nickname() in stream.subscribers:
-                stream.subscribers.remove(users.get_current_user().nickname())
-                stream.put()
+        if len(streams2unsubscribe) > 0:
+            streams = Stream.query(Stream.name.IN(streams2unsubscribe)).fetch()
+            for stream in streams:
+                if users.get_current_user() and users.get_current_user().nickname() in stream.subscribers:
+                    stream.subscribers.remove(users.get_current_user().nickname())
+                    stream.put()
         self.redirect(original_url)
 
 app = webapp2.WSGIApplication(

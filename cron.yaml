@@ -1,0 +1,6 @@
+cron:
+- url: /send_email
+  schedule: every 5 minutes
+
+- url: /clear
+  schedule: every 1 hours
