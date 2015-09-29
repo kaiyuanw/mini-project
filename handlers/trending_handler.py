@@ -37,8 +37,10 @@ class UpdateFrequency(webapp2.RequestHandler):
 class SendEmail(webapp2.RequestHandler):
     def get(self):
         timer = get_timer('timer')
+        self.response.out.write('<h>' + str(timer.counter) + '</h>')
         timer.counter = timer.counter + 1
-        if timer.counter == timer.threshold:
+        self.response.out.write('<h>' + str(timer.counter) + '</h>')
+        if timer.counter >= timer.threshold:
             timer.counter = 0
             streams = Stream.query().fetch()
             most_three_popular_streams = sorted(streams, key = lambda stream: len(stream.total_visits), reverse = True)[:3]
@@ -48,8 +50,24 @@ class SendEmail(webapp2.RequestHandler):
                 email_message += (prefix + stream.name + ' owned by ' + stream.owner_nickname)
                 prefix = ', '
             email_subject = 'Trending Stream Report'
-            email_sender = users.get_current_user().email()
-            mail.send_mail(sender = email_sender, to = 'kaiyuanw@utexas.edu', subject = email_subject, body = email_message)
+            if users.get_current_user():
+                email_sender = users.get_current_user().email()
+            else:
+                email_sender = 'wangkaiyuanzz@gmail.com'
+            mail.send_mail(
+                sender = email_sender,
+                to = 'kaiyuanw@utexas.edu',
+                subject = email_subject,
+                body = email_message
+            )
+            mail.send_mail(
+                sender = email_sender,
+                to = email_sender,
+                subject = email_subject,
+                body = email_message
+            )
+        self.response.out.write('<h>' + str(timer.counter) + '</h>')
+        self.response.out.write('<h>' + str(timer.threshold) + '</h>')
         timer.put()
 
 class ClearVisitorHistoryPeriodically(webapp2.RequestHandler):

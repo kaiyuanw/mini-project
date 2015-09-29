@@ -13,48 +13,63 @@ handlers:
 
 - url: /delete_stream
   script: handlers.manage_handler.app
+  login: required
 
 - url: /unsubscribe_stream
   script: handlers.manage_handler.app
+  login: required
 
 - url: /create_stream
   script: handlers.create_stream_handler.app
+  login: required
 
 - url: /create
   script: handlers.create_stream_handler.app
+  login: required
 
 - url: /stream.*
   script: handlers.view_single_stream_handler.app
+  login: required
 
 - url: /upload
   script: handlers.view_single_stream_handler.app
+  login: required
 
 - url: /img.*
   script: handlers.view_single_stream_handler.app
+  login: required
 
 - url: /show_more.*
   script: handlers.view_single_stream_handler.app
+  login: required
 
 - url: /subscribe_stream
   script: handlers.view_single_stream_handler.app
+  login: required
 
 - url: /delete_photos
   script: handlers.view_single_stream_handler.app
+  login: required
 
 - url: /view_all_stream
   script: handlers.view_all_streams_handler.app
+  login: required
 
 - url: /search_stream
   script: handlers.search_handler.app
+  login: required
 
 - url: /show_result
   script: handlers.search_handler.app
+  login: required
 
 - url: /trending_stream
   script: handlers.trending_handler.app
+  login: required
 
 - url: /update_email_freq
   script: handlers.trending_handler.app
+  login: required
 
 - url: /send_email
   script: handlers.trending_handler.app
