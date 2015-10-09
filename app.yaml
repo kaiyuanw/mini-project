@@ -81,11 +81,14 @@ handlers:
 - url: /clear
   script: handlers.trending_handler.app
 
+- url: /
+  script: handlers.login.app
+
 - url: /error
   script: handlers.error.app
 
 - url: /.*
-  script: handlers.login.app
+  script: handlers.error.app
 
 libraries:
 - name: webapp2

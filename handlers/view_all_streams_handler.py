@@ -11,9 +11,8 @@ JINJA_ENVIRONMENT = jinja_env.get_jinja_env()
 
 class ViewAllStreamsPage(webapp2.RequestHandler):
     def get(self):
-        streams = Stream.query(Stream.owner == users.get_current_user()).order(-Stream.create_time).fetch()
+        streams = Stream.query().order(-Stream.create_time).fetch()
         template_value = {
-            'owner_nickname': users.get_current_user().nickname(),
             'streams': streams
         }
         template = JINJA_ENVIRONMENT.get_template('templates/view_all_streams.html')

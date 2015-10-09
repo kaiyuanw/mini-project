@@ -14,6 +14,7 @@ class ErrorPage(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication(
     [
-        ('/error.*', ErrorPage)
+        ('/error.*', ErrorPage),
+        ('/.*', ErrorPage)
     ],
     debug=True)

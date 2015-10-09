@@ -24,7 +24,7 @@ class CreateStream(webapp2.RequestHandler):
         if len(stream_name) == 0:
             stream_name = 'untitled stream'
         stream_tags = self.request.get('stream_tags').replace('\n', '').split(',')
-        stream_subscribers = self.request.get('subscribers').replace('\n', '').split(',')
+        stream_subscribers = self.filter_subscriber(self.request.get('subscribers').replace('\n', '').split(','))
         stream_cover_url = self.request.get('cover_url')
         if len(stream_cover_url) == 0:
             stream_cover_url = 'assets/images/default_cover_img.jpg'
@@ -47,6 +47,8 @@ class CreateStream(webapp2.RequestHandler):
 
             if len(stream_tags) > 0:
                 new_stream.tags = stream_tags
+
+
             if self.contains_subscriber(stream_subscribers):
                 new_stream.subscribers = stream_subscribers
                 email_sender = users.get_current_user().email()
@@ -64,6 +66,12 @@ class CreateStream(webapp2.RequestHandler):
             self.redirect('manage')
         else:
             self.redirect('error')
+
+    def filter_subscriber(self, subscribers):
+        for subscriber in subscribers:
+            if subscriber == '' or subscriber == users.get_current_user().email():
+                subscribers.remove(subscriber)
+        return subscribers
 
     def contains_subscriber(self, subscribers):
         for subscriber in subscribers:
