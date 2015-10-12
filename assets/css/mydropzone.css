@@ -1,0 +1,17 @@
+#dropzone {
+    margin-bottom: 3rem;
+}
+.dropzone {
+    background: white none repeat scroll 0 0;
+    border: 2px dashed #0087f7;
+    border-radius: 5px;
+}
+.dropzone .dz-message {
+    font-weight: 400;
+}
+.dropzone .dz-message .note {
+    display: block;
+    font-size: 0.8em;
+    font-weight: 200;
+    margin-top: 1.4rem;
+}

@@ -49,7 +49,7 @@ class Upload(webapp2.RequestHandler):
     def post(self):
         original_url = self.request.headers['Referer']
         unquoted_url = urllib.unquote(original_url).replace('+',' ')
-        img = self.request.get('photo')
+        img = self.request.get('file')
         if len(img) > 0:
             stream_name = re.findall('=(.*)', unquoted_url)[0]
             stream = Stream.query(Stream.name == stream_name, Stream.owner == users.get_current_user()).fetch()[0]

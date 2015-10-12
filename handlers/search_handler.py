@@ -3,6 +3,7 @@ __author__ = 'Kaiyuan_Wang'
 import urllib
 import re
 import webapp2
+import json
 
 from google.appengine.api import users
 
@@ -40,9 +41,6 @@ class ShowResult(webapp2.RequestHandler):
         if five_most_relevant_names == []:
             five_most_relevant_names = ['']
         result_streams = Stream.query(Stream.name.IN(five_most_relevant_names)).fetch()
-        print '--------'
-        print (len(result_streams))
-        print(result_streams)
         search_enabled = True
         template_value = {
             'search_enabled': search_enabled,
@@ -71,8 +69,27 @@ def relevant_score(stringa, stringb):
         else:
             return max(relevant_score(x[1:], y), relevant_score(x, y[1:]))
 
+class AutoComplete(webapp2.RequestHandler):
+    def get(self):
+        unquoted_url = urllib.unquote(self.request.url).replace('+',' ')
+        keyword = re.findall('term=(.*)', unquoted_url)[0]
+        name_list = []
+        for stream in Stream.query().fetch():
+            name_list.append(stream.name)
+        relevant_scores = []
+        for name in name_list:
+            relevant_scores.append(relevant_score(name, keyword))
+        sorted_mapping = sorted(zip(relevant_scores, name_list), reverse=True)
+        twenty_most_relevant_names = sorted([mapping[1] for mapping in sorted_mapping[:20] if mapping[0] != 0])
+        result = { "data" : twenty_most_relevant_names }
+        self.response.headers['Content-Type'] = 'application/json'
+        result = json.dumps(result)
+        self.response.write(result)
+
+
 app = webapp2.WSGIApplication(
     [
         ('/search_streams', SearchPage),
-        ('/show_result', ShowResult)
+        ('/show_result', ShowResult),
+        ('/auto_complete', AutoComplete)
     ], debug=True)

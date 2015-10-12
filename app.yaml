@@ -67,6 +67,10 @@ handlers:
   script: handlers.search_handler.app
   login: required
 
+- url: /auto_complete
+  script: handlers.search_handler.app
+  login: required
+
 - url: /trending_stream
   script: handlers.trending_handler.app
   login: required

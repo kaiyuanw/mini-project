@@ -4,7 +4,7 @@
 {% endblock %}
 {% block div_body %}
 <form action="/show_result" method="get">
-    <input type="search" name="search_keyword" placeholder="Keyword"/><br>
+    <input id="auto_complete" type="search" name="search_keyword" placeholder="Keyword"/><br>
     <input type="submit" value="Search"/>
 </form>
 {% if search_enabled %}

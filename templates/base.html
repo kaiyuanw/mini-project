@@ -2,40 +2,24 @@
 {% autoescape true %}
 <html>
 <head lang="en">
-    <style>
-        table {
-            border-collapse: collapse;
-        }
-        #header td {
-            width: 100px;
-            font-weight: bold;
-            text-align: center;
-            border-left: 3px solid black;
-            border-right: 3px solid black;
-        }
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../assets/css/basic.css" rel="stylesheet">
+    <link href="../assets/css/dropzone.css" rel="stylesheet">
+    <link href="../assets/css/jquery-ui.min.css" rel="stylesheet">
+    <link href="../assets/css/mydropzone.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/remodal.css">
+    <link rel="stylesheet" href="../assets/css/remodal-default-theme.css">
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/css/bootstrap-theme.min.css" rel="stylesheet">
 
-        #header td:first-child {
-            border-left: 0;
-            border-radius: 3px 0 0 3px;
-        }
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/jquery-ui.min.js"></script>
+    <script src="../assets/js/dropzone.js"></script>
+    <script src="../assets/js/remodal.js"></script>
 
-        #header td:last-child {
-            border-right: 0;
-            border-radius: 3px 0 0 3px;
-        }
-
-        b {
-            color: #808080;
-        }
-        .img_txt {
-            position: absolute;
-            top: 40%;
-            color: white;
-            font: italic bold 30px/60px Georgia, serif;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px;
-        }
-    </style>
+    <script src="../assets/js/upload.js"></script>
+    <script src="../assets/js/autocomplete.js"></script>
+    <script src="../assets/js/main.js"></script>
     <meta charset="UTF-8">
     <title>Connexus</title>
 </head>
@@ -68,7 +52,7 @@
 </div>
 <div id="body">
     {% block div_body %}
-    <p>Nothing</p>
+        <p>Nothing</p>
     {% endblock %}
 </div>
 </body>

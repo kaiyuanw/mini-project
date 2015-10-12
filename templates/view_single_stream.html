@@ -1,19 +1,34 @@
 {% extends "templates/base.html" %}
 {% block div_body %}
-<h2>{{ stream_name }}</h2>
-<table border="1" style="width:100%">
-    <tr>
-        {% for photo in photos %}
-        <td><img src="/img?img_id={{ photo.key.urlsafe() }}"/></td>
-        {% endfor %}
-    </tr>
-</table>
-<form action="{{ more_pic_url }}">
-    <input type="submit" value="More Pictures"/>
-</form>
-<form action="/upload" method="post" enctype="multipart/form-data">
-    Upload File:
-    <input type="file" name="photo"/><br>
-    <input type="submit" name="submit" value="Submit">
-</form>
+    <h2>{{ stream_name }}</h2>
+    <table border="1" style="width:100%">
+        <tr>
+            {% for photo in photos %}
+                <td><img src="/img?img_id={{ photo.key.urlsafe() }}"/></td>
+            {% endfor %}
+        </tr>
+    </table>
+    <form action="{{ more_pic_url }}">
+        <input type="submit" value="More Pictures"/>
+    </form>
+    <div class="remodal-bg">
+        <a href="#modal">Geo View</a>
+    </div>
+    {% include 'templates/geo_view.html' %}
+    {#    <form action="/upload" method="post" enctype="multipart/form-data">#}
+    {#        Upload File:#}
+    {#        <input type="file" name="photo"/><br>#}
+    {#        <input type="submit" name="submit" value="Submit">#}
+    {#    </form>#}
+{#    <form action="/upload" class="dropzone" id="myDropzone">#}
+{#        <input type="button" value="Multiple Upload" id="btn-upload">#}
+{#    </form>#}
+    {% include 'templates/dropzone.html' %}
+{#    <div id="dropzone">#}
+{#        <form id="myDropzone" class="dropzone dz-clickable" action="/upload">#}
+{#            <div class="dz-message">#}
+{#                Drop files here or click to upload.#}
+{#            </div>#}
+{#        </form>#}
+{#    </div>#}
 {% endblock %}
