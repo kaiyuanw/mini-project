@@ -106,5 +106,8 @@
             $("#slider-range").slider("values", 0),
             $("#slider-range").slider("values", 1)
     );
-{#    google.maps.event.trigger(map, "resize");#}
+    {#    google.maps.event.trigger(map, "resize");#}
+    $(document).on('opening', '.remodal', function () {
+        google.maps.event.trigger(my_map, "resize");
+    });
 </script>
