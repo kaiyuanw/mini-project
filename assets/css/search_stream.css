@@ -1,13 +1,13 @@
 .panel-custom {
-    margin: 50px 300px 0px 300px;
+    margin: 50px 150px 0px 150px;
 }
 
 .panel-success {
-    margin: 30px 300px 0px 300px;
+    margin: 30px 150px 0px 150px;
 }
 
 .panel-danger {
-    margin: 30px 300px 0px 300px;
+    margin: 30px 150px 0px 150px;
     float: left;
     clear: both;
 }
