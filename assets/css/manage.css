@@ -1,0 +1,12 @@
+.panel-custom {
+    margin: 50px 300px 0px 300px;
+}
+
+#logout-button {
+    margin-top: 20px;
+    margin-left: 300px;
+}
+
+a {
+    color: black;
+}

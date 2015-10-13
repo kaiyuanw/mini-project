@@ -1,7 +1,14 @@
 {% extends "templates/base.html" %}
+
+{% block custom_style %} 
+    <link href="../assets/css/trending_stream.css" rel="stylesheet"> 
+{% endblock %} 
+
 {% block trending_stream %}
-<b>Trending</b>
+    <li class="active"><a href="trending_stream">Trending</a></li>
 {% endblock %}
+
+
 {% block div_body %}
 <h2>Top 3 Trending Streams</h2>
 <table style="width: 600px">

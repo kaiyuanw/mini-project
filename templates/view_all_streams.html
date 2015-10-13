@@ -1,29 +1,31 @@
 {% extends "templates/base.html" %}
+
+{% block custom_style %} 
+    <link href="../assets/css/view_all_streams.css" rel="stylesheet"> 
+{% endblock %} 
+
 {% block view_all_stream %}
-<b>View</b>
+    <li class="active"><a href="view_all_stream">View</a></li> 
 {% endblock %}
+
 {% block div_body %}
-<h2>View All Streams</h2>
-{% set counter = 0 %}
-<table border="1">
-    {% for stream in streams %}
-        {% if counter % 3 == 0 %}
-            <tr>
-        {% endif %}
-                <td>
-                    <a href="{{ stream.stream_url }}">
-                        <div style="position: relative">
-                            <img src="{{ stream.cover_url }}" width="300" height="300"/>
-                            <div class="img_txt">
-                                {{ stream.name }}
-                            </div>
-                        </div>
-                    </a>
-                </td>
-        {% if counter % 3 == 2 %}
-            </tr>
-        {% endif %}
-        {% set counter = counter + 1 %}
-    {% endfor %}
-</table>
+    <div class="panel panel-primary panel-custom">
+        <div class="panel-heading">
+            <h3 class="panel-title">View All Streams</h3>
+        </div>
+        <div class="panel-body">
+            {% for stream in streams %}
+                <div class="panel panel-default panel-thumbnail">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ stream.name }}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <a href="{{ stream.stream_url }}">
+                            <img alt="200x200" class="img-thumbnail" data-src="holder.js/200x200" style="width: 200px; height: 200px;" src="{{ stream.cover_url }}" data-holder-rendered="true">
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

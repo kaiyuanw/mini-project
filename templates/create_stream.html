@@ -1,30 +1,61 @@
 {% extends "templates/base.html" %}
+
+{% block custom_style %} 
+    <link href="../assets/css/create_stream.css" rel="stylesheet"> 
+{% endblock %} 
+
 {% block create_stream %}
-<b>Create</b>
+    <li class="active"><a href="create_stream">Create</a></li> 
 {% endblock %}
+
 {% block div_body %}
-<form action="/create" method="post">
-    <table>
-        <tr>
-            <td><textarea name="stream_name" rows="3" cols="60" placeholder="stream name"></textarea></td>
-            <td><textarea name="stream_tags" rows="3" cols="60" placeholder="tags"></textarea></td>
-        </tr>
-        <tr>
-            <td><h2>Name Your Stream</h2></td>
-            <td><h2>Tag Your Stream</h2></td>
-        </tr>
-        <tr>
-            <td><textarea name="subscribers" rows="3" cols="60" placeholder="subscriber1@xxx.com,&#10subscriber2@yyy.com,&#10..."></textarea></td>
-            <td><textarea name="cover_url" rows="3" cols="60" placeholder="http://www.images.com/path/to/picture.png"></textarea></td>
-        </tr>
-        <tr>
-            <td><textarea name="optional_msg" rows="3" cols="60" placeholder="Optional message for invite"></textarea></td>
-            <td><h2>URL to cover image</h2></td>
-        </tr>
-        <tr>
-            <td><h2>Add Subscribers</h2></td>
-        </tr>
-    </table>
-    <input type="submit" value="Create Stream"/>
-</form>
+    <div class="panel panel-primary panel-custom">
+        <div class="panel-heading">
+            <h3 class="panel-title">Create</h3>
+        </div>
+        <div class="panel-body">
+            <form action="/create" method="post">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Name your stream</h3>
+                            </div>
+                            <div class="panel-body">
+                                <textarea name="stream_name" rows="3" cols="60" placeholder="Hongkong Journalist"></textarea>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Add subscribers</h3>
+                            </div>
+                            <div class="panel-body">
+                                <textarea name="subscribers" rows="3" cols="60" placeholder="xingyuan.wang@gmail.com,&#10helloworld@utexas.edu,&#10..."></textarea>
+                                <textarea name="optional_msg" rows="3" cols="60" placeholder="Optional message for invite"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Tag your stream</h3>
+                            </div>
+                            <div class="panel-body">
+                                <textarea name="stream_tags" rows="3" cols="60" placeholder="#naive, #haha"></textarea>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">URL to cover image (Can be empty)</h3>
+                            </div>
+                            <div class="panel-body">
+                                <textarea name="cover_url" rows="3" cols="60" placeholder="http://www.images.com/path/to/picture.png"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-xs btn-default" type="submit">Create Stream</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}

@@ -1,0 +1,21 @@
+.panel-custom {
+    margin: 50px 300px 0px 300px;
+}
+
+.panel-success {
+    margin: 50px 300px 0px 300px;
+}
+
+.panel-thumbnail {
+    display: inline-block;
+}
+
+.btn-sm {
+    margin: 0px 15px 0px 15px;
+}
+
+.panel-danger {
+    margin: 50px 300px 0px 300px;
+    float: left;
+    clear: both;
+}

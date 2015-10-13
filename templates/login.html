@@ -1,12 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Login Page</title>
-</head>
-<body>
-<h1>Welcome to Connexus!</h1>
-<h2>Share the world!</h2>
-<a href="{{ url }}">{{ url_txt }}</a>
-</body>
-</html>
+<!DOCTYPE html> 
+<html> 
+    <head lang="en"> 
+        <meta charset="UTF-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <meta name="author" content="Xingyuan Wang"> 
+        <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags --> 
+        <title>Login Page</title> 
+        <!-- Bootstrap core CSS --> 
+        <link href="../assets/css/bootstrap.min.css" rel="stylesheet"> 
+        <!-- Bootstrap theme --> 
+        <link href="../assets/css/bootstrap-theme.min.css" rel="stylesheet"> 
+        <!-- Custom styles for this template --> 
+        <link href="../assets/css/login.css" rel="stylesheet"> 
+    </head> 
+    <body> 
+        <div class="jumbotron"> 
+            <h1>Welcome to Connexus!</h1> 
+            <p>Share the world! </p> 
+        </div> 
+        <button type="button" class="btn btn-lg btn-primary">
+            <a href="{{ url }}">{{ url_txt }}</a>
+        </button> 
+    </body>
+ </html>

@@ -1,6 +1,15 @@
 {% extends "templates/base.html" %}
+
+{% block custom_style %} 
+    <link href="../assets/css/error.css" rel="stylesheet"> 
+{% endblock %} 
+
+{% block social %}
+    <li class="active"><a href="social">Social</a></li>
+ {% endblock %}
+
 {% block div_body %}
-<h4>Error: you tried to create a new stream whose name is as same as an existing stream;</h4>
-<h4>Create operation aborts</h4>
-<img src="assets/images/error_img.png"/>
+    <div role="alert" class="alert alert-danger">
+        <strong>Error</strong>: you tried to create a new stream whose name is as same as an existing stream; operation did not complete.
+    </div>
 {% endblock %}

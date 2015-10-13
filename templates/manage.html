@@ -1,50 +1,79 @@
 {% extends "templates/base.html" %}
-{% block manage %}
-<b>Manage</b>
-{% endblock %}
-{% block div_body %}
-<h2>Streams I own</h2>
-<form action="/delete_streams" method="post">
-    <table border="1" style="width:100%">
-        <tr>
-            <td>Name</td>
-            <td>Last New Picture</td>
-            <td>Number of Pictures</td>
-            <td>Delete</td>
-        </tr>
-        {% for stream in own_streams %}
-            <tr>
-                <td><a href="{{ stream.stream_url }}">{{ stream.name }}</a></td>
-                <td>{{ stream.update_time }}</td>
-                <td>{{ stream.pic_num }}</td>
-                <td><input type="checkbox" name="streams2delete" value="{{ stream.name }}"/></td>
-            </tr>
-        {% endfor %}
-    </table>
-    <input type="submit" value="Delete Checked"/>
-</form>
-<h2>Streams I subscribe to</h2>
-<form action="/unsubscribe_streams" method="post">
-    <table border="1" style="width:100%">
-        <tr>
-            <td>Name</td>
-            <td>Last New Picture</td>
-            <td>Number of Pictures</td>
-            <td>Views</td>
-            <td>Unsubscribe</td>
-        </tr>
-        {% for stream in subscribed_streams %}
-            <tr>
-                <td><a href="{{ stream.guest_url }}">{{ stream.name }}</a></td>
-                <td>{{ stream.update_time }}</td>
-                <td>{{ stream.pic_num }}</td>
-                <td>{{ stream.total_views }}</td>
-                <td><input type="checkbox" name="streams2unsubscribe" value="{{ stream.name }}"/></td>
-            </tr>
-        {% endfor %}
-    </table>
-    <input type="submit" value="Unsubscribe Checked Streams"/>
-</form>
 
-<a href="{{ url_link|safe }}">{{ url_txt }}</a>
+{% block custom_style %} 
+    <link href="../assets/css/manage.css" rel="stylesheet"> 
+{% endblock %} 
+
+{% block manage %}
+    <li class="active"><a href="manage">Manage</a></li> 
+{% endblock %}
+
+{% block div_body %}
+    <div class="panel panel-primary panel-custom">
+        <div class="panel-heading">
+            <h3 class="panel-title">Streams I own</h3>
+        </div>
+        <div class="panel-body">
+            <form action="/delete_streams" method="post">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Last New Picture</td>
+                        <td>Number of Pictures</td>
+                        <td>Delete</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for stream in own_streams %}
+                        <tr>
+                            <td><a href="{{ stream.stream_url }}">{{ stream.name }}</a></td>
+                            <td>{{ stream.update_time }}</td>
+                            <td>{{ stream.pic_num }}</td>
+                            <td><input type="checkbox" name="streams2delete" value="{{ stream.name }}"/></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <button class="btn btn-primary" type="submit">Delete Checked</button>
+            </form>
+        </div>
+    </div>
+    <div class="panel panel-primary panel-custom">
+        <div class="panel-heading">
+            <h3 class="panel-title">Streams I subscribe to</h3>
+        </div>
+        <div class="panel-body">
+            <form action="/unsubscribe_streams" method="post">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Last New Picture</td>
+                        <td>Number of Pictures</td>
+                        <td>Views</td>
+                        <td>Unsubscribe</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for stream in subscribed_streams %}
+                        <tr>
+                            <td><a href="{{ stream.guest_url }}">{{ stream.name }}</a></td>
+                            <td>{{ stream.update_time }}</td>
+                            <td>{{ stream.pic_num }}</td>
+                            <td>{{ stream.total_views }}</td>
+                            <td><input type="checkbox" name="streams2unsubscribe" value="{{ stream.name }}"/></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <button class="btn btn-primary" type="submit">Unsubscribe Checked Streams</button>
+            </form>
+        </div>
+    </div>
+    <div id="logout-button">
+        <button class="btn btn-xs btn-default" type="button">
+            <a href="{{ url_link|safe }}">{{ url_txt }}</a>
+        </button>
+    </div>
 {% endblock %}
