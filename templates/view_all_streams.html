@@ -15,14 +15,16 @@
         </div>
         <div class="panel-body">
             {% for stream in streams %}
-                <div class="panel panel-default panel-thumbnail">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{{ stream.name }}</h3>
-                    </div>
-                    <div class="panel-body">
-                        <a href="{{ stream.stream_url }}">
-                            <img alt="200x200" class="img-thumbnail" data-src="holder.js/200x200" style="width: 200px; height: 200px;" src="{{ stream.cover_url }}" data-holder-rendered="true">
-                        </a>
+                <div class="col-sm-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">{{ stream.name }}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <a href="{{ stream.stream_url }}">
+                                <img alt="200x200" class="img-thumbnail" data-src="holder.js/200x200" style="width: 200px; height: 200px;" src="{{ stream.cover_url }}" data-holder-rendered="true">
+                            </a>
+                        </div>
                     </div>
                 </div>
             {% endfor %}

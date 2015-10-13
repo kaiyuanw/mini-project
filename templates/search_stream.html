@@ -35,14 +35,16 @@
                 </div>
                 <div class="panel-body">
                     {% for stream in result_streams %}
-                        <div class="panel panel-default panel-thumbnail">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">{{ stream.name }}</h3>
-                            </div>
-                            <div class="panel-body">
-                                <a href="{% if user == stream.owner %} {{stream.stream_url}} {% else %} {{stream.guest_url}} {% endif %}">
-                                    <img alt="200x200" class="img-thumbnail" data-src="holder.js/200x200" style="width: 200px; height: 200px;" src="{{ stream.cover_url }}" data-holder-rendered="true">
-                                </a>
+                        <div class="col-sm-4">
+                            <div class="panel panel-default panel-thumbnail">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">{{ stream.name }}</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <a href="{% if user == stream.owner %} {{stream.stream_url}} {% else %} {{stream.guest_url}} {% endif %}">
+                                        <img alt="200x200" class="img-thumbnail" data-src="holder.js/200x200" style="width: 200px; height: 200px;" src="{{ stream.cover_url }}" data-holder-rendered="true">
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     {% endfor %}
