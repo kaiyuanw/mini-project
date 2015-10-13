@@ -84,7 +84,7 @@ class ClearVisitorHistoryPeriodically(webapp2.RequestHandler):
             visitor_history = stream.total_visits
             visitors_left = []
             for visitor in visitor_history:
-                if visitor.visit_time < (time.get_us_central_time() - time.time_delta(hours = 1)):
+                if visitor.visit_time < (time.get_current_us_central_time() - time.time_delta(hours = 1)):
                     visit = SingleVisit.query(SingleVisit.visit_time == visitor.visit_time).fetch()[0]
                     visit.key.delete()
                 else:

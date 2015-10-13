@@ -36,8 +36,8 @@ class CreateStream(webapp2.RequestHandler):
             new_stream.cover_url = stream_cover_url
             new_stream.owner = users.get_current_user()
             new_stream.owner_nickname = users.get_current_user().nickname()
-            new_stream.create_time = time.get_us_central_time()# datetime.datetime.now()
-            new_stream.update_time = time.get_us_central_time()# datetime.datetime.now()
+            new_stream.create_time = time.get_current_us_central_time()# datetime.datetime.now()
+            new_stream.update_time = time.get_current_us_central_time()# datetime.datetime.now()
             new_stream.unique_id_counter = 0
             new_stream.pic_num = 0
             new_stream.total_views = 0

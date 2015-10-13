@@ -11,7 +11,7 @@
         {% if counter % 3 == 0 %}
             <tr>
         {% endif %}
-                <td><img src="/img?img_id={{ photo.key.urlsafe() }}"/>{% if isOwner %}<input type="checkbox" name="photos2delete" value="{{ photo.id }}"/>{% endif %}</td>
+                <td><img src="/img?img_id={{photo.key.urlsafe()}}"/>{% if isOwner %}<input type="checkbox" name="photos2delete" value="{{ photo.id }}"/>{% endif %}</td>
         {% if counter % 3 == 2 %}
             </tr>
         {% endif %}

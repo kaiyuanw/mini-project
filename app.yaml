@@ -55,6 +55,10 @@ handlers:
   script: handlers.view_single_stream_handler.app
   login: required
 
+- url: /geo_data
+  script: handlers.view_single_stream_handler.app
+  login: required
+
 - url: /view_all_stream
   script: handlers.view_all_streams_handler.app
   login: required
