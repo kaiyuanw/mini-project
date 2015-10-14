@@ -19,7 +19,6 @@ class Stream(ndb.Model):
     total_visits = ndb.StructuredProperty(SingleVisit, repeated=True)
     owner = ndb.UserProperty()
     owner_nickname = ndb.StringProperty()
-    unique_id_counter = ndb.IntegerProperty()
 
 class Photo(ndb.Model):
     id = ndb.StringProperty()

@@ -79,16 +79,8 @@ class AutoComplete(webapp2.RequestHandler):
         unquoted_url = urllib.unquote(self.request.url).replace('+', ' ')
         keyword = re.findall('term=(.*)', unquoted_url)[0]
         name_list = []
-        # for stream in Stream.query().fetch():
-        # name_list.append(stream.name)
-        # relevant_scores = []
-        # for name in name_list:
-        #     relevant_scores.append(relevant_score(name, keyword))
-        # sorted_mapping = sorted(zip(relevant_scores, name_list), reverse=True)
-        # twenty_most_relevant_names = sorted([mapping[1] for mapping in sorted_mapping[:20] if mapping[0] != 0])
-        # result = { "data" : twenty_most_relevant_names }
         try:
-            index = search.Index(name=stream_index())
+            index = search.Index(name=stream_index(users.get_current_user().nickname()))
             for scored_document in index.search(keyword):
                 name_list.append(scored_document.field('stream_name').value)
         except search.Error as e:
@@ -103,7 +95,7 @@ class AutoComplete(webapp2.RequestHandler):
 class RebuildSearchIndex(webapp2.RequestHandler):
     def get(self):
         try:
-            index = search.Index(name=stream_index())
+            index = search.Index(name=stream_index(users.get_current_user().nickname()))
             while True:
                 doc_ids = [document.doc_id for document in index.get_range(ids_only=True)]
                 if not doc_ids:

@@ -26,18 +26,22 @@ class ViewSingleStreamPage(webapp2.RequestHandler):
     def get(self):
         unquoted_url = urllib.unquote(self.request.url).replace('+', ' ')
         stream_name = re.findall('=(.*)', unquoted_url)[0]
-        stream = Stream.query(Stream.name == stream_name).fetch()[0]
-        photos = Photo.query(ancestor=stream_key(stream_name)).order(-Photo.upload_date).fetch(3)
-        more_pic_url = urllib.urlencode({'show_more': stream.name + '==' + stream.owner_nickname})
-        template_value = {
-            'stream_name': stream_name,
-            'photos': photos,
-            'more_pic_url': more_pic_url,
-            'user_nickname': stream.owner_nickname,
-            'current_user_nickname': users.get_current_user().nickname()
-        }
-        template = JINJA_ENVIRONMENT.get_template('templates/view_single_stream.html')
-        self.response.out.write(template.render(template_value))
+        streams = Stream.query(Stream.name == stream_name).fetch()
+        if len(streams) > 0:
+            stream = streams[0]
+            photos = Photo.query(ancestor=stream_key(stream_name)).order(-Photo.upload_date).fetch(3)
+            more_pic_url = urllib.urlencode({'show_more': stream.name + '==' + stream.owner_nickname})
+            template_value = {
+                'stream_name': stream_name,
+                'photos': photos,
+                'more_pic_url': more_pic_url,
+                'user_nickname': stream.owner_nickname,
+                'current_user_nickname': users.get_current_user().nickname()
+            }
+            template = JINJA_ENVIRONMENT.get_template('templates/view_single_stream.html')
+            self.response.out.write(template.render(template_value))
+        else:
+            self.redirect('page_not_found')
 
 
 class Image(webapp2.RequestHandler):
@@ -58,19 +62,7 @@ class Upload(webapp2.RequestHandler):
         img = self.request.get('photo')
         if len(img) > 0:
             stream_name = re.findall('=(.*)', unquoted_url)[0]
-            # stream = Stream.query(Stream.name == stream_name, ancestor = user_key(users.get_current_user().nickname())).fetch()[0]
             store_image(stream_name, img)
-            # stream = Stream.query(Stream.name == stream_name, Stream.owner == users.get_current_user()).fetch()[0]
-            # photo = Photo(upload_date=time.get_us_central_time(), parent=stream_key(stream_name))
-            # stream.update_time = photo.upload_date
-            # stream.pic_num = stream.pic_num + 1
-            # # stream.unique_id_counter += 1
-            # # photo.id = str(stream.unique_id_counter)
-            # photo.id = uuid.uuid4()
-            # img = images.resize(img, 300, 300)
-            # photo.image = img
-            # photo.put()
-            # stream.put()
         self.redirect(original_url)
 
 
@@ -80,8 +72,6 @@ def store_image(stream_name, img):
     photo = Photo(upload_date=time.get_current_us_central_time(), parent=stream_key(stream_name))
     stream.update_time = photo.upload_date
     stream.pic_num = stream.pic_num + 1
-    # stream.unique_id_counter += 1
-    # photo.id = str(stream.unique_id_counter)
     photo.id = str(uuid.uuid4())
     # img = images.resize(img, 200, 200)
     photo.image = img
@@ -93,29 +83,30 @@ def store_image(stream_name, img):
 
 class DisplayPhotos(webapp2.RequestHandler):
     def get(self):
-        original_url = self.request.headers['Referer']
         unquoted_url = urllib.unquote(self.request.url).replace('+', ' ')
         stream_name = re.findall('=(.*)==', unquoted_url)[0]
         user_nickname = re.findall('==(.*)', unquoted_url)[0]
-        stream = Stream.query(Stream.name == stream_name, Stream.owner_nickname == user_nickname).fetch()[0]
-        # single_visit = SingleVisit(visit_time = datetime.datetime.now())
-        if users.get_current_user().nickname() != user_nickname:
-            single_visit = SingleVisit(visit_time=time.get_current_us_central_time())
-            single_visit.put()
-            stream.total_visits.append(single_visit)
-            stream.total_views = len(stream.total_visits)
-        stream.put()
-        photos = Photo.query(ancestor=stream_key(stream_name)).order(-Photo.upload_date).fetch()
-        # go_back_url = urllib.urlencode({'stream_name' : stream_name})
-        go_back_url = urllib.urlencode({'stream_name':stream.name})
-        template_value = {
-            'stream': stream,
-            'photos': photos,
-            'user': users.get_current_user(),
-            'go_back_url': go_back_url
-        }
-        template = JINJA_ENVIRONMENT.get_template('templates/display_photos.html')
-        self.response.out.write(template.render(template_value))
+        streams = Stream.query(Stream.name == stream_name, Stream.owner_nickname == user_nickname).fetch()
+        if len(streams) > 0:
+            stream = streams[0]
+            if users.get_current_user().nickname() != user_nickname:
+                single_visit = SingleVisit(visit_time=time.get_current_us_central_time())
+                single_visit.put()
+                stream.total_visits.append(single_visit)
+                stream.total_views = len(stream.total_visits)
+            stream.put()
+            photos = Photo.query(ancestor=stream_key(stream_name)).order(-Photo.upload_date).fetch()
+            go_back_url = urllib.urlencode({'stream_name':stream.name})
+            template_value = {
+                'stream': stream,
+                'photos': photos,
+                'user': users.get_current_user(),
+                'go_back_url': go_back_url
+            }
+            template = JINJA_ENVIRONMENT.get_template('templates/display_photos.html')
+            self.response.out.write(template.render(template_value))
+        else:
+            self.redirect('page_not_found')
 
 
 class SubscribeStream(webapp2.RequestHandler):

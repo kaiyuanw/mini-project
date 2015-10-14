@@ -1,6 +1,4 @@
-import os
 from google.appengine.api import users
-import jinja2
 import webapp2
 
 from domain import jinja_env

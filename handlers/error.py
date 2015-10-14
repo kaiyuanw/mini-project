@@ -12,9 +12,15 @@ class ErrorPage(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template('templates/error.html')
         self.response.write(template.render())
 
+class PageNotFound(webapp2.RequestHandler):
+    def get(self):
+        template = JINJA_ENVIRONMENT.get_template('templates/page_not_found.html')
+        self.response.write(template.render())
+
 app = webapp2.WSGIApplication(
     [
         ('/error.*', ErrorPage),
-        ('/.*', ErrorPage)
+        ('/page_not_found', PageNotFound),
+        ('/.*', PageNotFound)
     ],
     debug=True)

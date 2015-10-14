@@ -57,7 +57,7 @@ class DeleteStreams(webapp2.RequestHandler):
                 ndb.delete_multi([p.key for p in photos])
             ndb.delete_multi([s.key for s in streams])
             try:
-                index = search.Index(name=stream_index())
+                index = search.Index(name=stream_index(users.get_current_user().nickname()))
                 index2delete = []
                 for stream_name in streams2delete:
                     for scored_document in index.search('stream_name:\"' + stream_name + '\"'):

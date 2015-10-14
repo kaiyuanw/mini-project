@@ -101,6 +101,9 @@ handlers:
 - url: /error
   script: handlers.error.app
 
+- url: /page_not_found
+  script: handlers.error.app
+
 - url: /.*
   script: handlers.error.app
 

@@ -31,7 +31,7 @@ class CreateStream(webapp2.RequestHandler):
         if len(stream_cover_url) == 0:
             stream_cover_url = 'assets/images/default_cover_img.png'
 
-        streams = Stream.query(Stream.name == stream_name, Stream.owner == users.get_current_user()).fetch()
+        streams = Stream.query(Stream.name == stream_name).fetch()
         if len(streams) < 1:
             new_stream = Stream(parent = user_key(users.get_current_user().nickname()))
             new_stream.name = stream_name
@@ -40,7 +40,6 @@ class CreateStream(webapp2.RequestHandler):
             new_stream.owner_nickname = users.get_current_user().nickname()
             new_stream.create_time = time.get_current_us_central_time()# datetime.datetime.now()
             new_stream.update_time = time.get_current_us_central_time()# datetime.datetime.now()
-            new_stream.unique_id_counter = 0
             new_stream.pic_num = 0
             new_stream.total_views = 0
             new_stream.total_visits = []
@@ -72,8 +71,9 @@ class CreateStream(webapp2.RequestHandler):
                 ]
             )
             try:
-                index = search.Index(name = stream_index())
+                index = search.Index(name = stream_index(users.get_current_user().nickname()))
                 index.put(doc)
+                print index
             except search.Error as e:
                 print e.message
             self.redirect('manage')
