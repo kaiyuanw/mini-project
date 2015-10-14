@@ -1,22 +1,43 @@
 {% extends "templates/base.html" %}
+
+{% block custom_style %} 
+    <link href="../assets/css/view_single_stream.css" rel="stylesheet"> 
+{% endblock %} 
+
 {% block div_body %}
-    <div class="panel panel-primary">
+    <div class="panel panel-default panel-custom">
         <div class="panel-heading">
             <h3 class="panel-title">{{ stream_name }}</h3>
         </div>
+
         <div class="panel-body">
-           {% for photo in photos %}
-                <img src="/img?img_id={{ photo.key.urlsafe() }}"/>
-           {% endfor %}
-        </div>
-        <form action="{{ more_pic_url }}">
-            <input type="submit" value="More Pictures"/>
-        </form>
-        <div class="remodal-bg">
-            <a href="#modal">Geo View</a>
+            <div class="col-sm-11">
+                {% set count = 0 %}
+                {% for photo in photos %}
+                    <div class="col-sm-4">
+                        <img alt="300x300" class="img-thumbnail" data-src="holder.js/200x200" style="width: 300px; height: 300px;" src="/img?img_id={{ photo.key.urlsafe() }}">
+                    </div>
+                    {% set count = count + 1 %}
+                {% endfor %}
+            </div>
+            <div class="col-sm-1">
+                <div>
+                    <form action="{{ more_pic_url }}">
+                        <button class="btn btn-outline btn-success btn-circle btn-xl btn-custom" type="submit">
+                            <span class="glyphicon glyphicon-th-large"></span>
+                        </button>
+                    </form>
+                </div>
+                <div class="remodal-bg">
+                    <button class="btn btn-outline btn-warning btn-circle btn-xl btn-custom" type="button">
+                        <a href="#modal"><span class="glyphicon glyphicon-map-marker"></span></a>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
-    {% include 'templates/geo_view.html' %}
-
-    {% include 'templates/dropzone.html' %}
+    <div class="well">
+        {% include 'templates/geo_view.html' %}
+        {% include 'templates/dropzone.html' %}
+    </div>
 {% endblock %}
