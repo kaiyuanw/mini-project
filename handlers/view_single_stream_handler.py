@@ -26,14 +26,14 @@ class ViewSingleStreamPage(webapp2.RequestHandler):
     def get(self):
         unquoted_url = urllib.unquote(self.request.url).replace('+', ' ')
         stream_name = re.findall('=(.*)', unquoted_url)[0]
-        stream = Stream.query(Stream.name == stream_name, Stream.owner == users.get_current_user()).fetch()[0]
+        stream = Stream.query(Stream.name == stream_name).fetch()[0]
         photos = Photo.query(ancestor=stream_key(stream_name)).order(-Photo.upload_date).fetch(3)
-        more_pic_url = urllib.urlencode({'show_more': stream.name + '==' + users.get_current_user().nickname()})
+        more_pic_url = urllib.urlencode({'show_more': stream.name + '==' + stream.owner_nickname})
         template_value = {
             'stream_name': stream_name,
             'photos': photos,
             'more_pic_url': more_pic_url,
-            'user_nickname': users.get_current_user().nickname()
+            'user_nickname': stream.owner_nickname
         }
         template = JINJA_ENVIRONMENT.get_template('templates/view_single_stream.html')
         self.response.out.write(template.render(template_value))
