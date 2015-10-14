@@ -16,7 +16,7 @@
                 {% for photo in photos %}
                     <div class="col-sm-4">
                         <div class="thumbnail clickable">
-                            <a data-lightbox="{{stream_name}}" data-title="{{photo.id}}" href="/img?img_id={{photo.key.urlsafe()}}">
+                            <a data-lightbox="{{stream_name}}" href="/img?img_id={{photo.key.urlsafe()}}">
                                 <img class="img-responsive img-rounded displayed_big" style="width: 300px; height: 300px;" src="/img?img_id={{photo.key.urlsafe()}}">
                             </a>
                         </div>
@@ -44,7 +44,13 @@
     </div>
     <div class="well">
         {% include 'templates/geo_view.html' %}
-        {% include 'templates/dropzone.html' %}
+        {% if current_user_nickname == user_nickname %}
+            {% include 'templates/dropzone.html' %}
+        {% else %}
+            <div class="alert alert-success alert-dismissible" role="alert">
+                Please click <span class="glyphicon glyphicon-th-large"></span> to see more pictures and subscribe the stream.
+            </div>
+        {% endif %}
         <script src="../assets/js/lightbox.min.js"></script>
     </div>
 {% endblock %}

@@ -33,7 +33,8 @@ class ViewSingleStreamPage(webapp2.RequestHandler):
             'stream_name': stream_name,
             'photos': photos,
             'more_pic_url': more_pic_url,
-            'user_nickname': stream.owner_nickname
+            'user_nickname': stream.owner_nickname,
+            'current_user_nickname': users.get_current_user().nickname()
         }
         template = JINJA_ENVIRONMENT.get_template('templates/view_single_stream.html')
         self.response.out.write(template.render(template_value))
@@ -84,7 +85,7 @@ def store_image(stream_name, img):
     photo.id = str(uuid.uuid4())
     # img = images.resize(img, 200, 200)
     photo.image = img
-    photo.latitude = random.uniform(-1,1) * 90
+    photo.latitude = random.uniform(-1,1) * 85
     photo.longitude = random.uniform(-1,1) * 180
     photo.put()
     stream.put()
@@ -106,7 +107,7 @@ class DisplayPhotos(webapp2.RequestHandler):
         stream.put()
         photos = Photo.query(ancestor=stream_key(stream_name)).order(-Photo.upload_date).fetch()
         # go_back_url = urllib.urlencode({'stream_name' : stream_name})
-        go_back_url = original_url
+        go_back_url = urllib.urlencode({'stream_name':stream.name})
         template_value = {
             'stream': stream,
             'photos': photos,
@@ -175,7 +176,7 @@ class PhotoFilter(webapp2.RequestHandler):
         for photo in photos:
             if start_time <= photo.upload_date and photo.upload_date <= end_time:
                 photos_in_range.append(photo)
-        photos_info = [{'latitude': p.latitude, 'longitude': p.longitude, 'content': '<img src="/img?img_id=' + p.key.urlsafe() + '"/>'} for p in photos_in_range]
+        photos_info = [{'latitude': p.latitude, 'longitude': p.longitude, 'content': '<img style="width: auto; height: 100px;" src="/img?img_id=' + p.key.urlsafe() + '"/>'} for p in photos_in_range]
         result = { "markers" : photos_info }
         self.response.headers['Content-Type'] = 'application/json'
         result = json.dumps(result)
