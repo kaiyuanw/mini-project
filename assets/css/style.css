@@ -116,3 +116,10 @@ html, body {
 .clickable:hover {
     opacity: .80;
 }
+
+img.displayed_big {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 500px;
+}

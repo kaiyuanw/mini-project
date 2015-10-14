@@ -82,7 +82,7 @@ def store_image(stream_name, img):
     # stream.unique_id_counter += 1
     # photo.id = str(stream.unique_id_counter)
     photo.id = str(uuid.uuid4())
-    img = images.resize(img, 250, 250)
+    # img = images.resize(img, 200, 200)
     photo.image = img
     photo.latitude = random.uniform(-1,1) * 90
     photo.longitude = random.uniform(-1,1) * 180

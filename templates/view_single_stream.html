@@ -15,7 +15,11 @@
                 {% set count = 0 %}
                 {% for photo in photos %}
                     <div class="col-sm-4">
-                        <img alt="300x300" class="img-thumbnail" data-src="holder.js/200x200" style="width: 300px; height: 300px;" src="/img?img_id={{ photo.key.urlsafe() }}">
+                        <div class="thumbnail clickable">
+                            <a data-lightbox="{{stream_name}}" data-title="{{photo.id}}" href="/img?img_id={{photo.key.urlsafe()}}">
+                                <img class="img-responsive img-rounded displayed_big" style="width: 300px; height: 300px;" src="/img?img_id={{photo.key.urlsafe()}}">
+                            </a>
+                        </div>
                     </div>
                     {% set count = count + 1 %}
                 {% endfor %}
@@ -29,9 +33,11 @@
                     </form>
                 </div>
                 <div class="remodal-bg">
-                    <button class="btn btn-outline btn-warning btn-circle btn-xl btn-custom" type="button">
-                        <a href="#modal"><span class="glyphicon glyphicon-map-marker"></span></a>
-                    </button>
+                    <a href="#modal">
+                        <button class="btn btn-outline btn-warning btn-circle btn-xl btn-custom">
+                            <span class="glyphicon glyphicon-map-marker"></span>
+                        </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -39,5 +45,6 @@
     <div class="well">
         {% include 'templates/geo_view.html' %}
         {% include 'templates/dropzone.html' %}
+        <script src="../assets/js/lightbox.min.js"></script>
     </div>
 {% endblock %}

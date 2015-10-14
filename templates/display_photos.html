@@ -18,11 +18,15 @@
                 <div class="col-sm-12">
                     {% for photo in photos %}
                         <div class="col-sm-4">
-                            <img alt="300x300" class="img-thumbnail" data-src="holder.js/200x200" style="width: 300px; height: 300px;" src="/img?img_id={{photo.key.urlsafe()}}">
-                            {% if isOwner %}
+                        <div class="thumbnail clickable">
+                            <a data-lightbox="{{stream.name}}" href="/img?img_id={{photo.key.urlsafe()}}">
+                                <img class="img-responsive img-rounded displayed_big" style="width: 300px; height: 300px;" src="/img?img_id={{photo.key.urlsafe()}}">
+                            </a>
+                        </div>
+                        {% if isOwner %}
                                 <input type="checkbox" name="photos2delete" value="{{ photo.id }}"/>
                             {% endif %}
-                        </div>
+                    </div>
                     {% endfor %}
                 </div>
                 <div class="col-sm-12">
@@ -46,14 +50,17 @@
                         {% endif %}
                     {% endif %}
                         <div class="col-sm-2">
-                            <button class="btn btn-outline btn-info" type="button">
-                                <a href="{{ go_back_url }}">Go Back</a>
-                            </button>
+                            <a href="{{ go_back_url }}">
+                                <button class="btn btn-outline btn-info" type="button">
+                                    Go Back
+                                </button>
+                            </a>
                         </div>
                 </div>
             {% if isOwner %}
                 </form>
             {% endif %}
         </div>
+        <script src="../assets/js/lightbox.min.js"></script>
     </div>
 {% endblock %}

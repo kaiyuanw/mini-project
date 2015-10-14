@@ -95,6 +95,9 @@ handlers:
 - url: /
   script: handlers.login.app
 
+- url: /social
+  script: handlers.social_handler.app
+
 - url: /error
   script: handlers.error.app
 
