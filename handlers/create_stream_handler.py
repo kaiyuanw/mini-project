@@ -4,12 +4,14 @@ import urllib
 
 from google.appengine.api import users
 from google.appengine.api import mail
+from google.appengine.api import search
 import webapp2
 
 from domain import jinja_env, time
 from domain.model import Stream
 from domain.key_pool import user_key
-
+from domain.index_pool import stream_index
+from domain.suggestions import generate_suggestions
 
 JINJA_ENVIRONMENT = jinja_env.get_jinja_env()
 
@@ -63,6 +65,17 @@ class CreateStream(webapp2.RequestHandler):
                         body = msg_prefix + msg_body
                     )
             new_stream.put()
+            doc = search.Document(
+                fields=[
+                    search.TextField(name='stream_name', value=new_stream.name),
+                    search.TextField(name='suggestions', value=generate_suggestions(new_stream.name))
+                ]
+            )
+            try:
+                index = search.Index(name = stream_index())
+                index.put(doc)
+            except search.Error as e:
+                print e.message
             self.redirect('manage')
         else:
             self.redirect('error')

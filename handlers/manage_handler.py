@@ -2,6 +2,7 @@ __author__ = 'Kaiyuan_Wang'
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
+from google.appengine.api import search
 import webapp2
 
 from domain import jinja_env
@@ -9,7 +10,7 @@ from domain.model import Stream
 from domain.model import Photo
 from domain.key_pool import user_key
 from domain.key_pool import stream_key
-
+from domain.index_pool import stream_index
 
 JINJA_ENVIRONMENT = jinja_env.get_jinja_env()
 
@@ -55,6 +56,16 @@ class DeleteStreams(webapp2.RequestHandler):
                 photos = Photo.query(ancestor = stream_key(stream.name))
                 ndb.delete_multi([p.key for p in photos])
             ndb.delete_multi([s.key for s in streams])
+            try:
+                index = search.Index(name=stream_index())
+                index2delete = []
+                for stream_name in streams2delete:
+                    for scored_document in index.search('stream_name:\"' + stream_name + '\"'):
+                        index2delete.append(scored_document.doc_id)
+                if len(index2delete) > 0:
+                    index.delete(index2delete)
+            except search.Error as e:
+                print e.message
         self.redirect(original_url)
 
 class UnsubscribeStreams(webapp2.RequestHandler):

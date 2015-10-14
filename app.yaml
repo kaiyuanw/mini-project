@@ -75,6 +75,9 @@ handlers:
   script: handlers.search_handler.app
   login: required
 
+- url: /rebuild_search_index
+  script: handlers.search_handler.app
+
 - url: /trending_stream
   script: handlers.trending_handler.app
   login: required
