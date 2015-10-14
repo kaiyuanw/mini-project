@@ -40,6 +40,7 @@ myDropzone.on("sending", function (file) {
 // Hide the total progress bar when nothing's uploading anymore
 myDropzone.on("queuecomplete", function (progress) {
     document.querySelector("#total-progress").style.opacity = "0";
+    window.location.reload()
 });
 
 myDropzone.on('error', function (file, errorMessage, xhr) {
@@ -48,6 +49,10 @@ myDropzone.on('error', function (file, errorMessage, xhr) {
         file.previewElement.querySelector("[data-dz-errormessage]").innerHTML = "";
         myDropzone.uploadFile(file);
         error_counter += 1;
+    }
+    else {
+        file.previewElement.querySelector("[data-dz-errormessage]").innerHTML = "Upload operation fails";
+        error_counter = 0;
     }
 });
 
