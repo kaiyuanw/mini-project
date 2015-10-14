@@ -14,10 +14,8 @@ $(function () {
                 return;
             }
             $.getJSON("auto_complete", request, function (data, status, xhr) {
-                if (data.length !== 0) {
-                    cache[term] = data.data;
-                    response(data);
-                }
+                cache[term] = data.data;
+                response(data);
             });
         }
     });
