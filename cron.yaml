@@ -6,3 +6,7 @@ cron:
 - description: clear visitor history older than 1 hour
   url: /clear
   schedule: every 1 minutes
+
+- description: rebuild search index every 1 hour
+  url: /rebuild_search_index
+  schedule: every 1 hours

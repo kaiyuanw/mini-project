@@ -77,15 +77,6 @@ html, body {
 .shadow { -moz-box-shadow: 0px 2px 4px #999; -webkit-box-shadow: 0px 2px 4px #999; box-shadow: 0px 2px 4px #999; }
 .item { padding:1em; margin:0 0 2em; }
 
-/** Benchmark */
-div.benchmark { clear:both; overflow:auto; color:#fff; background: #02748c; padding: 1em; margin: 0 0 1em; }
-div.benchmark .benchmark-result { display:block; font-size:18px; font-weight:bold; margin: 0 1em 0 0; line-height: 35px; }
-div.benchmark .benchmark-iteration { font-weight:bold; margin:0; }
-div.benchmark .benchmark-title { margin:0; }
-
-/** Syntax highlighter */
-pre.prettyprint { background:#f4f4f4; padding: 1.5em; border:none; margin: 0 0 1em; }
-
 .summary { font-size:1.3em; cursor:pointer; color: #EE2C74; }
 .ui-dialog-vevent .summary { margin:0.5em 0 0 0; display:block; }
 .ui-dialog-vevent .dtstart { display:none; }

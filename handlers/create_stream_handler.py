@@ -4,12 +4,14 @@ import urllib
 
 from google.appengine.api import users
 from google.appengine.api import mail
+from google.appengine.api import search
 import webapp2
 
 from domain import jinja_env, time
 from domain.model import Stream
 from domain.key_pool import user_key
-
+from domain.index_pool import stream_index
+from domain.suggestions import generate_suggestions
 
 JINJA_ENVIRONMENT = jinja_env.get_jinja_env()
 
@@ -27,7 +29,7 @@ class CreateStream(webapp2.RequestHandler):
         stream_subscribers = self.filter_subscriber(self.request.get('subscribers').replace('\n', '').split(','))
         stream_cover_url = self.request.get('cover_url')
         if len(stream_cover_url) == 0:
-            stream_cover_url = 'assets/images/default_cover_img.jpg'
+            stream_cover_url = 'assets/images/default_cover_img.png'
 
         streams = Stream.query(Stream.name == stream_name, Stream.owner == users.get_current_user()).fetch()
         if len(streams) < 1:
@@ -63,6 +65,17 @@ class CreateStream(webapp2.RequestHandler):
                         body = msg_prefix + msg_body
                     )
             new_stream.put()
+            doc = search.Document(
+                fields=[
+                    search.TextField(name='stream_name', value=new_stream.name),
+                    search.TextField(name='suggestions', value=generate_suggestions(new_stream.name))
+                ]
+            )
+            try:
+                index = search.Index(name = stream_index())
+                index.put(doc)
+            except search.Error as e:
+                print e.message
             self.redirect('manage')
         else:
             self.redirect('error')
