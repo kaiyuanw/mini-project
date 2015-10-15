@@ -1,6 +1,7 @@
 __author__ = 'Kaiyuan_Wang'
 
 import urllib
+import json
 
 from google.appengine.api import users
 from google.appengine.api import mail
@@ -76,9 +77,15 @@ class CreateStream(webapp2.RequestHandler):
                 print index
             except search.Error as e:
                 print e.message
-            self.redirect('manage')
+            result = { "successful" : "200" }
+            self.response.headers['Content-Type'] = 'application/json'
+            result = json.dumps(result)
+            self.response.write(result)
         else:
-            self.redirect('error')
+            result = { "error" : "A stream of that name already exists! Please select another name." }
+            self.response.headers['Content-Type'] = 'application/json'
+            result = json.dumps(result)
+            self.response.write(result)
 
     def filter_subscriber(self, subscribers):
         for subscriber in subscribers:

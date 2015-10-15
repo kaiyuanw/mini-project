@@ -167,7 +167,7 @@ class PhotoFilter(webapp2.RequestHandler):
         for photo in photos:
             if start_time <= photo.upload_date and photo.upload_date <= end_time:
                 photos_in_range.append(photo)
-        photos_info = [{'latitude': p.latitude, 'longitude': p.longitude, 'content': '<img style="width: auto; height: 100px;" src="/img?img_id=' + p.key.urlsafe() + '"/>'} for p in photos_in_range]
+        photos_info = [{'latitude': p.latitude, 'longitude': p.longitude, 'content': '<img style="width: 100px; height: 100px;" src="/img?img_id=' + p.key.urlsafe() + '"/>'} for p in photos_in_range]
         result = { "markers" : photos_info }
         self.response.headers['Content-Type'] = 'application/json'
         result = json.dumps(result)
