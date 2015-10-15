@@ -16,8 +16,9 @@
                 {% for photo in photos %}
                     <div class="col-sm-4">
                         <div class="thumbnail clickable">
-                            <a data-lightbox="{{stream_name}}" href="/img?img_id={{photo.key.urlsafe()}}">
-                                <img class="img-responsive img-rounded displayed_big" style="width: 300px; height: 300px;" src="/img?img_id={{photo.key.urlsafe()}}">
+                            <a data-lightbox="{{ stream_name }}" href="/img?img_id={{ photo.key.urlsafe() }}">
+                                <img class="img-responsive img-rounded displayed_big"
+                                     style="width: 300px; height: 300px;" src="/img?img_id={{ photo.key.urlsafe() }}">
                             </a>
                         </div>
                     </div>
@@ -27,14 +28,16 @@
             <div class="col-sm-1">
                 <div>
                     <form action="{{ more_pic_url }}">
-                        <button class="btn btn-outline btn-success btn-circle btn-xl btn-custom" type="submit">
+                        <button class="btn btn-outline btn-success btn-circle btn-xl btn-custom" type="submit"
+                                data-toggle="tooltip" title="See More Pictures">
                             <span class="glyphicon glyphicon-th-large"></span>
                         </button>
                     </form>
                 </div>
                 <div class="remodal-bg">
                     <a href="#modal">
-                        <button class="btn btn-outline btn-warning btn-circle btn-xl btn-custom">
+                        <button class="btn btn-outline btn-warning btn-circle btn-xl btn-custom" data-toggle="tooltip"
+                                title="Geo View">
                             <span class="glyphicon glyphicon-map-marker"></span>
                         </button>
                     </a>
@@ -48,9 +51,15 @@
             {% include 'templates/dropzone.html' %}
         {% else %}
             <div class="alert alert-success alert-dismissible" role="alert">
-                Please click <span class="glyphicon glyphicon-th-large"></span> to see more pictures and subscribe the stream.
+                Please click <span class="glyphicon glyphicon-th-large"></span> to see more pictures and subscribe the
+                stream.
             </div>
         {% endif %}
         <script src="../assets/js/lightbox.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>
     </div>
 {% endblock %}
