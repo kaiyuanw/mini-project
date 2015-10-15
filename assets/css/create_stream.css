@@ -2,11 +2,12 @@
     margin: 50px 150px 0px 150px;
 }
 
+#alert {
+    margin: 50px 150px 0px 150px;
+}
+
 textarea {
     border-radius: 5px;
     width: 100%;
 }
 
-#alert {
-    margin: 50px 150px 0px 150px;
-}
