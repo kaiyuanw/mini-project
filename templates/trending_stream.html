@@ -14,28 +14,30 @@
             <h3 class="panel-title">Top 3 Trending Streams</h3>
         </div>
         <div class="panel-body">
-            {% set count = 0 %}
-            {% for stream in most_three_popular_streams %}
-                <div class="col-sm-3">
-                    <div {% if count == 0 %} class="panel panel-default"
-                    {% elif count == 1 %} class="panel panel-default"
-                    {% else %} class="panel panel-default"
-                    {% endif %}>
-                        <div class="panel-heading">
-                            <h3 class="panel-title">{{ stream.name }}</h3>
-                        </div>
-                        <div class="panel-body text-center">
-                            <a href="{% if user == stream.owner %} {{ stream.stream_url }} {% else %} {{ stream.guest_url }} {% endif %}">
-                                <img alt="200x200" class="img-thumbnail" data-src="holder.js/200x200" style="width: 200px; height: 200px;" src="{{ stream.cover_url }}" data-holder-rendered="true">
-                            </a>
-                            <div>
-                                <strong>{{ stream.total_visits|length }}</strong> views in the last hour.
+            <div class="col-sm-9">
+                {% set count = 0 %}
+                {% for stream in most_three_popular_streams %}
+                    <div class="col-sm-4">
+                        <div {% if count == 0 %} class="panel panel-default"
+                        {% elif count == 1 %} class="panel panel-default"
+                        {% else %} class="panel panel-default"
+                        {% endif %}>
+                            <div class="panel-heading">
+                                <h3 class="panel-title">{{ stream.name }}</h3>
+                            </div>
+                            <div class="panel-body text-center">
+                                <a href="{% if user == stream.owner %} {{ stream.stream_url }} {% else %} {{ stream.guest_url }} {% endif %}">
+                                    <img alt="200x200" class="img-thumbnail" data-src="holder.js/200x200" style="width: 200px; height: 200px;" src="{{ stream.cover_url }}" data-holder-rendered="true">
+                                </a>
+                                <div>
+                                    <strong>{{ stream.total_visits|length }}</strong> views in the last hour.
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                {% set count = count + 1 %}
-            {% endfor %}
+                    {% set count = count + 1 %}
+                {% endfor %}
+            </div>
             <div class="col-sm-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -64,6 +66,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </di>
     </div>
 {% endblock %}
