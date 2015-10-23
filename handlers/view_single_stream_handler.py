@@ -10,6 +10,8 @@ import webapp2
 from google.appengine.api import users
 from google.appengine.api import images
 from google.appengine.ext import ndb
+from google.appengine.ext import blobstore
+from google.appengine.ext.webapp import blobstore_handlers
 
 from domain.model import Stream
 from domain.model import Photo
@@ -43,17 +45,15 @@ class ViewSingleStreamPage(webapp2.RequestHandler):
         else:
             self.redirect('page_not_found')
 
-
 class Image(webapp2.RequestHandler):
     def get(self):
         photo_key = ndb.Key(urlsafe=self.request.get('img_id'))
         photo = photo_key.get()
         if photo.image:
-            # self.response.headers['Content-Type'] = 'image/png'
+            self.response.headers['Content-Type'] = 'image/jpeg'
             self.response.out.write(photo.image)
         else:
             self.response.out.write('No image')
-
 
 class Upload(webapp2.RequestHandler):
     def post(self):
