@@ -23,6 +23,7 @@ class Stream(ndb.Model):
 class Photo(ndb.Model):
     id = ndb.StringProperty()
     image = ndb.BlobProperty()
+    image_key = ndb.BlobKeyProperty()
     upload_date = ndb.DateTimeProperty()
     latitude = ndb.FloatProperty()
     longitude = ndb.FloatProperty()

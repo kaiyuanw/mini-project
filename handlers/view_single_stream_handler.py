@@ -38,38 +38,42 @@ class ViewSingleStreamPage(webapp2.RequestHandler):
                 'photos': photos,
                 'more_pic_url': more_pic_url,
                 'user_nickname': stream.owner_nickname,
-                'current_user_nickname': users.get_current_user().nickname()
+                'current_user_nickname': users.get_current_user().nickname(),
+                'upload_url': blobstore.create_upload_url('/upload')
             }
             template = JINJA_ENVIRONMENT.get_template('templates/view_single_stream.html')
             self.response.out.write(template.render(template_value))
         else:
             self.redirect('page_not_found')
 
-class Image(webapp2.RequestHandler):
+class Image(blobstore_handlers.BlobstoreDownloadHandler):
     def get(self):
         photo_key = ndb.Key(urlsafe=self.request.get('img_id'))
         photo = photo_key.get()
         if photo.image:
-            self.response.headers['Content-Type'] = 'image/jpeg'
-            self.response.out.write(photo.image)
+            self.response.headers['Content-Type'] = 'image/png'
+            # self.response.out.write(photo.image)
+            blob_info = blobstore.BlobInfo.get(photo.image_key)
+            self.send_blob(blob_info)
         else:
             self.response.out.write('No image')
 
-class Upload(webapp2.RequestHandler):
+class Upload(blobstore_handlers.BlobstoreUploadHandler):
     def post(self):
+        upload_key = self.get_uploads()[0].key()
         original_url = self.request.headers['Referer']
         unquoted_url = urllib.unquote(original_url).replace('+', ' ')
         img = self.request.get('photo')
         if len(img) > 0:
             stream_name = re.findall('=(.*)', unquoted_url)[0]
-            store_image(stream_name, img)
+            store_image(stream_name, img, upload_key)
         self.redirect(original_url)
 
 
 @ndb.transactional(xg = True)
-def store_image(stream_name, img):
+def store_image(stream_name, img, img_key):
     stream = Stream.query(Stream.name == stream_name, ancestor = user_key(users.get_current_user().nickname())).fetch()[0]
-    photo = Photo(upload_date=time.get_current_us_central_time(), parent=stream_key(stream_name))
+    photo = Photo(upload_date=time.get_current_us_central_time(), image_key=img_key, parent=stream_key(stream_name))
     stream.update_time = photo.upload_date
     stream.pic_num = stream.pic_num + 1
     photo.id = str(uuid.uuid4())
@@ -173,6 +177,12 @@ class PhotoFilter(webapp2.RequestHandler):
         result = json.dumps(result)
         self.response.write(result)
 
+class PhotoURL(webapp2.RequestHandler):
+    def get(self):
+        photos = Photo.query().fetch()
+        for photo in photos:
+            self.response.write(images.get_serving_url(photo.image_key) + '\n')
+
 app = webapp2.WSGIApplication(
     [
         ('/stream.*', ViewSingleStreamPage),
@@ -182,5 +192,6 @@ app = webapp2.WSGIApplication(
         ('/subscribe_stream', SubscribeStream),
         ('/unsubscribe_stream', UnsubscribeStream),
         ('/delete_photos', DeletePhotos),
-        ('/geo_data', PhotoFilter)
+        ('/geo_data', PhotoFilter),
+        ('/photo_url', PhotoURL)
     ], debug=True)
