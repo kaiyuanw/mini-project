@@ -81,6 +81,7 @@ def store_image(stream_name, img, img_key):
     photo.image = img
     photo.latitude = random.uniform(-1,1) * 85
     photo.longitude = random.uniform(-1,1) * 180
+    photo.caption = 'no caption'
     photo.put()
     stream.put()
 

@@ -27,6 +27,7 @@ class Photo(ndb.Model):
     upload_date = ndb.DateTimeProperty()
     latitude = ndb.FloatProperty()
     longitude = ndb.FloatProperty()
+    caption = ndb.StringProperty()
 
 class EmailTimer(ndb.Model):
     email = ndb.StringProperty()

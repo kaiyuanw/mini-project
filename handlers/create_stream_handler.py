@@ -30,7 +30,8 @@ class CreateStream(webapp2.RequestHandler):
         stream_subscribers = self.filter_subscriber(self.request.get('subscribers').replace('\n', '').split(','))
         stream_cover_url = self.request.get('cover_url')
         if len(stream_cover_url) == 0:
-            stream_cover_url = 'assets/images/default_cover_img.png'
+            # stream_cover_url = 'assets/images/default_cover_img.png'
+            stream_cover_url = 'http://vignette2.wikia.nocookie.net/steven-universe/images/a/a6/No-image-available-hi.png/revision/20140326204436'
 
         streams = Stream.query(Stream.name == stream_name).fetch()
         if len(streams) < 1:
