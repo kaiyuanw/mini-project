@@ -8,14 +8,23 @@ handlers:
 - url: /assets
   static_dir: assets
 
-- url: /mobile_view_all_stream
+- url: /mobile.*
   script: handlers.mobile_device_handler.app
 
-- url: /mobile_show_result.*
-  script: handlers.mobile_device_handler.app
+#- url: /mobile_view_all_stream
+#  script: handlers.mobile_device_handler.app
 
-- url: /mobile_stream_name.*
-  script: handlers.mobile_device_handler.app
+#- url: /mobile_show_result.*
+#  script: handlers.mobile_device_handler.app
+#
+#- url: /mobile_stream_name.*
+#  script: handlers.mobile_device_handler.app
+#
+#- url: /mobile_get_upload_url/([^/]+)
+#  script: handlers.mobile_device_handler.app
+#
+#- url: /mobile_upload_handler/([^/]+)
+#  script: handlers.mobile_device_handler.app
 
 - url: /manage
   script: handlers.manage_handler.app
@@ -64,9 +73,6 @@ handlers:
   script: handlers.view_single_stream_handler.app
   login: required
 
-- url: /photo_url
-  script: handlers.view_single_stream_handler.app
-  login: required
 
 - url: /geo_data
   script: handlers.view_single_stream_handler.app

@@ -79,9 +79,9 @@ def store_image(stream_name, img, img_key):
     photo.id = str(uuid.uuid4())
     # img = images.resize(img, 200, 200)
     photo.image = img
+    photo.caption = ''
     photo.latitude = random.uniform(-1,1) * 85
     photo.longitude = random.uniform(-1,1) * 180
-    photo.caption = 'no caption'
     photo.put()
     stream.put()
 
@@ -117,9 +117,10 @@ class DisplayPhotos(webapp2.RequestHandler):
 class SubscribeStream(webapp2.RequestHandler):
     def post(self):
         original_url = self.request.headers['Referer']
-        unquoted_url = urllib.unquote(original_url).replace('+', ' ').replace('\?', '')
+        unquoted_url = urllib.unquote(original_url).replace('+', ' ').replace('?', '')
         stream_name = re.findall('=(.*)==', unquoted_url)[0]
         user_nickname = re.findall('==(.*)', unquoted_url)[0]
+        self.response.write(user_nickname)
         stream = Stream.query(Stream.name == stream_name, Stream.owner_nickname == user_nickname).fetch()[0]
         user = users.get_current_user()
         if user:
@@ -132,7 +133,7 @@ class SubscribeStream(webapp2.RequestHandler):
 class UnsubscribeStream(webapp2.RequestHandler):
     def post(self):
         original_url = self.request.headers['Referer']
-        unquoted_url = urllib.unquote(original_url).replace('+', ' ').replace('\?', '')
+        unquoted_url = urllib.unquote(original_url).replace('+', ' ').replace('?', '')
         stream_name = re.findall('=(.*)==', unquoted_url)[0]
         user_nickname = re.findall('==(.*)', unquoted_url)[0]
         stream = Stream.query(Stream.name == stream_name, Stream.owner_nickname == user_nickname).fetch()[0]
@@ -178,12 +179,6 @@ class PhotoFilter(webapp2.RequestHandler):
         result = json.dumps(result)
         self.response.write(result)
 
-class PhotoURL(webapp2.RequestHandler):
-    def get(self):
-        photos = Photo.query().fetch()
-        for photo in photos:
-            self.response.write(images.get_serving_url(photo.image_key) + '\n')
-
 app = webapp2.WSGIApplication(
     [
         ('/stream.*', ViewSingleStreamPage),
@@ -193,6 +188,5 @@ app = webapp2.WSGIApplication(
         ('/subscribe_stream', SubscribeStream),
         ('/unsubscribe_stream', UnsubscribeStream),
         ('/delete_photos', DeletePhotos),
-        ('/geo_data', PhotoFilter),
-        ('/photo_url', PhotoURL)
+        ('/geo_data', PhotoFilter)
     ], debug=True)

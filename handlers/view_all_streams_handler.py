@@ -1,7 +1,6 @@
 __author__ = 'Kaiyuan_Wang'
 
 import webapp2
-from google.appengine.api import users
 
 from domain import jinja_env
 from domain.model import Stream

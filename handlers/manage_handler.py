@@ -75,8 +75,8 @@ class UnsubscribeStreams(webapp2.RequestHandler):
         if len(streams2unsubscribe) > 0:
             streams = Stream.query(Stream.name.IN(streams2unsubscribe)).fetch()
             for stream in streams:
-                if users.get_current_user() and users.get_current_user().nickname() in stream.subscribers:
-                    stream.subscribers.remove(users.get_current_user().nickname())
+                if users.get_current_user() and users.get_current_user().email() in stream.subscribers:
+                    stream.subscribers.remove(users.get_current_user().email())
                     stream.put()
         self.redirect(original_url)
 
