@@ -74,7 +74,7 @@ class MobileViewSingleStreamPage(webapp2.RequestHandler):
                 any_photo['image_url'] = images.get_serving_url(photo.image_key)
                 any_photo['caption'] = photo.caption
                 results.append(any_photo)
-            json_obj = json.dumps({'photos':results, 'owner':stream.owner.email()})
+            json_obj = json.dumps({'photos':results, 'owner':str(stream.owner.email()).lower()})
             self.response.write(json_obj)
 
 class MobileGetUploadURL(webapp2.RequestHandler):
